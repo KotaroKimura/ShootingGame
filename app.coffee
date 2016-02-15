@@ -7,7 +7,7 @@ port    = 3000
 app.use '/assets', express.static(__dirname + '/assets')
 
 app.get '/', (req, res) ->
-  res.sendfile 'coffeeTest.html'
+  res.sendfile 'views/coffeeTest.html'
 
 http.listen port, ->
   console.log 'listening on *:', port
