@@ -1,4 +1,4 @@
 (function() {
-  alert("Hellow World!!!");
+  console.log('Hellow World!!!');
 
 }).call(this);
