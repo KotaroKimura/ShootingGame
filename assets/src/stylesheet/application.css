@@ -1,11 +1,5 @@
-div#field {
-  width: 980px;
-  height: 500px;
+canvas#field {
+  display: block;
   margin: 0 auto;
-}
-
-canvas {
-  width: 100%;
-  height: 100%;
   background-color: black;
 }
