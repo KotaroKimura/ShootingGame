@@ -1,8 +1,9 @@
 # グローバル変数
 exports = this
 exports.globalObject = {
-  field : { width: 980, height: 500 }
-  canvas: $('canvas#field')
+  loop_flg: true
+  field   : { width: 980, height: 500 }
+  canvas  : $('canvas#field')
 }
 
 class Field
@@ -36,11 +37,11 @@ class Movement
 
   doMove: ->
     if _pushedArrowKey.call @
-      _controlMovingDistance.call @
+      _controlMovingDirection.call @
       exports.globalObject['player'].clear()
       exports.globalObject['player'].draw()
 
-  _controlMovingDistance = ->
+  _controlMovingDirection = ->
     switch @keyCode
       when KEYDOWN['left']
         exports.globalObject['player'].width -= DISTANCE
@@ -56,10 +57,24 @@ class Movement
       @keyCode, [KEYDOWN['left'], KEYDOWN['up'], KEYDOWN['right'], KEYDOWN['down']]
     ) == -1 then true else false
 
-do ->
-  new Field().draw()
+class TimeKeeper
+  constructor: ->
+    @time = 0
+
+  watch: ->
+    if exports.globalObject['loop_flg'] == true
+      setTimeout (timeKeeper) ->
+        console.log timeKeeper.time += 1
+        timeKeeper.watch()
+      , 1000 / 60, @
+
+$ ->
+  exports.globalObject['timeKeeper'] = new TimeKeeper()
   exports.globalObject['player'] = new Player()
+  field = new Field()
+  exports.globalObject['timeKeeper'].watch()
   exports.globalObject['player'].draw()
+  field.draw()
 
 $(document).on 'keydown', 'body', (e) ->
   new Movement(e.keyCode).doMove()
