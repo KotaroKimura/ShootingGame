@@ -58,7 +58,7 @@ Player = (function() {
   };
 
   Player.prototype.redraw = function() {
-    this.clear;
+    this.clear();
     this.judgeBehavior();
     return this.draw();
   };
