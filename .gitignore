@@ -3,5 +3,6 @@ package.json
 gulpfile.coffee
 
 # folders
+vender/
 node_modules/
 assets/build/

@@ -12,7 +12,7 @@ class Field
     exports.globalObject.canvas[0].height = exports.globalObject.field.height
 
 class Player
-  RADIUS   = 10
+  RADIUS = 10
   # 加速率
   # 「停止」から「最高速」までの振り幅を示す
   ACCELERATION = 0.4
@@ -20,21 +20,17 @@ class Player
   # 摩擦がかかる < 1(摩擦0) < 加速する
   FRICTION = 0.91
   constructor: ->
-    @direction = { left: false, up: false, right: false, down: false }
+    @action_flg = { left: false, up: false, right: false, down: false }
     @width  = 20
     @height = (exports.globalObject.field.height - RADIUS) / 2
     @distance_width = 0
     @distance_height = 0
 
-  move: (keyCode) ->
-    keyMotion = new KeyMotion(keyCode)
-    if keyMotion.pushedArrowKey()
-      @direction[keyMotion.direction] = true
+  move: (direction) ->
+    @action_flg[direction] = true
 
-  stop: (keyCode) ->
-    keyMotion = new KeyMotion(keyCode)
-    if keyMotion.pushedArrowKey()
-      @direction[keyMotion.direction] = false
+  stop: (direction) ->
+    @action_flg[direction] = false
 
   redraw: ->
     @clear()
@@ -42,10 +38,10 @@ class Player
     @draw()
 
   calculateAcceleration: ->
-    @distance_width -= ACCELERATION if @direction.left
-    @distance_width += ACCELERATION if @direction.right
-    @distance_height -= ACCELERATION if @direction.up
-    @distance_height += ACCELERATION if @direction.down
+    @distance_width -= ACCELERATION if @action_flg.left
+    @distance_width += ACCELERATION if @action_flg.right
+    @distance_height -= ACCELERATION if @action_flg.up
+    @distance_height += ACCELERATION if @action_flg.down
 
   calculateFriction: ->
     @distance_width = @distance_width * FRICTION
@@ -96,7 +92,11 @@ $ ->
   new TimeKeeper().watch()
 
 $(document).on 'keydown', 'body', (e) ->
-  exports.globalObject.player.move e.keyCode
+  keyMotion = new KeyMotion(e.keyCode)
+  if keyMotion.pushedArrowKey()
+    exports.globalObject.player.move keyMotion.direction
 
 $(document).on 'keyup', 'body', (e) ->
-  exports.globalObject.player.stop e.keyCode
+  keyMotion = new KeyMotion(e.keyCode)
+  if keyMotion.pushedArrowKey()
+    exports.globalObject.player.stop keyMotion.direction

@@ -33,7 +33,7 @@ Player = (function() {
   FRICTION = 0.91;
 
   function Player() {
-    this.direction = {
+    this.action_flg = {
       left: false,
       up: false,
       right: false,
@@ -45,20 +45,12 @@ Player = (function() {
     this.distance_height = 0;
   }
 
-  Player.prototype.move = function(keyCode) {
-    var keyMotion;
-    keyMotion = new KeyMotion(keyCode);
-    if (keyMotion.pushedArrowKey()) {
-      return this.direction[keyMotion.direction] = true;
-    }
+  Player.prototype.move = function(direction) {
+    return this.action_flg[direction] = true;
   };
 
-  Player.prototype.stop = function(keyCode) {
-    var keyMotion;
-    keyMotion = new KeyMotion(keyCode);
-    if (keyMotion.pushedArrowKey()) {
-      return this.direction[keyMotion.direction] = false;
-    }
+  Player.prototype.stop = function(direction) {
+    return this.action_flg[direction] = false;
   };
 
   Player.prototype.redraw = function() {
@@ -68,16 +60,16 @@ Player = (function() {
   };
 
   Player.prototype.calculateAcceleration = function() {
-    if (this.direction.left) {
+    if (this.action_flg.left) {
       this.distance_width -= ACCELERATION;
     }
-    if (this.direction.right) {
+    if (this.action_flg.right) {
       this.distance_width += ACCELERATION;
     }
-    if (this.direction.up) {
+    if (this.action_flg.up) {
       this.distance_height -= ACCELERATION;
     }
-    if (this.direction.down) {
+    if (this.action_flg.down) {
       return this.distance_height += ACCELERATION;
     }
   };
@@ -163,9 +155,17 @@ $(function() {
 });
 
 $(document).on('keydown', 'body', function(e) {
-  return exports.globalObject.player.move(e.keyCode);
+  var keyMotion;
+  keyMotion = new KeyMotion(e.keyCode);
+  if (keyMotion.pushedArrowKey()) {
+    return exports.globalObject.player.move(keyMotion.direction);
+  }
 });
 
 $(document).on('keyup', 'body', function(e) {
-  return exports.globalObject.player.stop(e.keyCode);
+  var keyMotion;
+  keyMotion = new KeyMotion(e.keyCode);
+  if (keyMotion.pushedArrowKey()) {
+    return exports.globalObject.player.stop(keyMotion.direction);
+  }
 });
