@@ -73,7 +73,7 @@ class TimeKeeper
       , 15, @
 
 $ ->
-  new Field.draw()
+  Field.draw()
   exports.globalObject.player = new Player()
   exports.globalObject.player.draw()
   new TimeKeeper().watch()

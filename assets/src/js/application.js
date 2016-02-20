@@ -140,7 +140,7 @@ TimeKeeper = (function() {
 })();
 
 $(function() {
-  new Field.draw();
+  Field.draw();
   exports.globalObject.player = new Player();
   exports.globalObject.player.draw();
   return new TimeKeeper().watch();
