@@ -24,11 +24,13 @@ Field = (function() {
 })();
 
 Player = (function() {
-  var DISTANCE, RADIUS;
+  var ACCELERATION, FRICTION, RADIUS;
 
   RADIUS = 10;
 
-  DISTANCE = 5;
+  ACCELERATION = 0.4;
+
+  FRICTION = 0.91;
 
   function Player() {
     this.direction = {
@@ -37,8 +39,10 @@ Player = (function() {
       right: false,
       down: false
     };
-    this.width = (exports.globalObject.field.width - RADIUS) / 2;
-    this.height = exports.globalObject.field.height - 20;
+    this.width = 20;
+    this.height = (exports.globalObject.field.height - RADIUS) / 2;
+    this.distance_width = 0;
+    this.distance_height = 0;
   }
 
   Player.prototype.move = function(keyCode) {
@@ -59,23 +63,35 @@ Player = (function() {
 
   Player.prototype.redraw = function() {
     this.clear();
-    this.judgeBehavior();
+    this.decideBehavior();
     return this.draw();
   };
 
-  Player.prototype.judgeBehavior = function() {
+  Player.prototype.calculateAcceleration = function() {
     if (this.direction.left) {
-      this.width -= DISTANCE;
+      this.distance_width -= ACCELERATION;
     }
     if (this.direction.right) {
-      this.width += DISTANCE;
+      this.distance_width += ACCELERATION;
     }
     if (this.direction.up) {
-      this.height -= DISTANCE;
+      this.distance_height -= ACCELERATION;
     }
     if (this.direction.down) {
-      return this.height += DISTANCE;
+      return this.distance_height += ACCELERATION;
     }
+  };
+
+  Player.prototype.calculateFriction = function() {
+    this.distance_width = this.distance_width * FRICTION;
+    return this.distance_height = this.distance_height * FRICTION;
+  };
+
+  Player.prototype.decideBehavior = function() {
+    this.calculateAcceleration();
+    this.calculateFriction();
+    this.width += this.distance_width;
+    return this.height += this.distance_height;
   };
 
   Player.prototype.draw = function() {

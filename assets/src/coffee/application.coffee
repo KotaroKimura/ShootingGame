@@ -13,11 +13,18 @@ class Field
 
 class Player
   RADIUS   = 10
-  DISTANCE = 5
+  # 加速率
+  # 「停止」から「最高速」までの振り幅を示す
+  ACCELERATION = 0.4
+  # 摩擦
+  # 摩擦がかかる < 1(摩擦0) < 加速する
+  FRICTION = 0.91
   constructor: ->
     @direction = { left: false, up: false, right: false, down: false }
-    @width  = (exports.globalObject.field.width - RADIUS) / 2
-    @height = exports.globalObject.field.height - 20
+    @width  = 20
+    @height = (exports.globalObject.field.height - RADIUS) / 2
+    @distance_width = 0
+    @distance_height = 0
 
   move: (keyCode) ->
     keyMotion = new KeyMotion(keyCode)
@@ -31,14 +38,24 @@ class Player
 
   redraw: ->
     @clear()
-    @judgeBehavior()
+    @decideBehavior()
     @draw()
 
-  judgeBehavior: ->
-    @width -= DISTANCE if @direction.left
-    @width += DISTANCE if @direction.right
-    @height -= DISTANCE if @direction.up
-    @height += DISTANCE if @direction.down
+  calculateAcceleration: ->
+    @distance_width -= ACCELERATION if @direction.left
+    @distance_width += ACCELERATION if @direction.right
+    @distance_height -= ACCELERATION if @direction.up
+    @distance_height += ACCELERATION if @direction.down
+
+  calculateFriction: ->
+    @distance_width = @distance_width * FRICTION
+    @distance_height = @distance_height * FRICTION
+
+  decideBehavior: ->
+    @calculateAcceleration()
+    @calculateFriction()
+    @width += @distance_width
+    @height += @distance_height
 
   draw: ->
     exports.globalObject.canvas.drawArc(
