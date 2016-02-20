@@ -14,7 +14,7 @@ exports.globalObject = {
 Field = (function() {
   function Field() {}
 
-  Field.prototype.draw = function() {
+  Field.draw = function() {
     exports.globalObject['canvas'][0].width = exports.globalObject['field']['width'];
     return exports.globalObject['canvas'][0].height = exports.globalObject['field']['height'];
   };
@@ -41,11 +41,11 @@ Player = (function() {
     this.height = exports.globalObject['field']['height'] - 20;
   }
 
-  Player.prototype.run = function(keyCode) {
+  Player.prototype.move = function(keyCode) {
     var keyMotion;
     keyMotion = new KeyMotion(keyCode);
     if (keyMotion.pushedArrowKey()) {
-      return this.direction[keyMotion.code] = true;
+      return this.direction[keyMotion.direction] = true;
     }
   };
 
@@ -53,11 +53,11 @@ Player = (function() {
     var keyMotion;
     keyMotion = new KeyMotion(keyCode);
     if (keyMotion.pushedArrowKey()) {
-      return this.direction[keyMotion.code] = false;
+      return this.direction[keyMotion.direction] = false;
     }
   };
 
-  Player.prototype.move = function() {
+  Player.prototype.redraw = function() {
     this.clear();
     this.judgeBehavior();
     return this.draw();
@@ -96,21 +96,21 @@ Player = (function() {
 })();
 
 KeyMotion = (function() {
-  var CODE;
+  var KEY;
 
-  CODE = {
+  KEY = {
     37: 'left',
     38: 'up',
     39: 'right',
     40: 'down'
   };
 
-  function KeyMotion(keyCode) {
-    this.code = CODE[keyCode];
+  function KeyMotion(code) {
+    this.direction = KEY[code];
   }
 
   KeyMotion.prototype.pushedArrowKey = function() {
-    if (this.code === void 0) {
+    if (this.direction === void 0) {
       return false;
     } else {
       return true;
@@ -129,9 +129,9 @@ TimeKeeper = (function() {
   TimeKeeper.prototype.watch = function() {
     if (exports.globalObject['loop_flg'] === true) {
       return setTimeout(function(timeKeeper) {
-        exports.globalObject['player'].move();
+        exports.globalObject['player'].redraw();
         return timeKeeper.watch();
-      }, 1000 / 60, this);
+      }, 15, this);
     }
   };
 
@@ -140,14 +140,14 @@ TimeKeeper = (function() {
 })();
 
 $(function() {
-  new Field().draw();
+  new Field.draw();
   exports.globalObject['player'] = new Player();
   exports.globalObject['player'].draw();
   return new TimeKeeper().watch();
 });
 
 $(document).on('keydown', 'body', function(e) {
-  return exports.globalObject['player'].run(e.keyCode);
+  return exports.globalObject['player'].move(e.keyCode);
 });
 
 $(document).on('keyup', 'body', function(e) {

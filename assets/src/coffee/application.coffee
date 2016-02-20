@@ -7,7 +7,7 @@ exports.globalObject = {
 }
 
 class Field
-  draw: ->
+  @draw: ->
     exports.globalObject['canvas'][0].width = exports.globalObject['field']['width']
     exports.globalObject['canvas'][0].height = exports.globalObject['field']['height']
 
@@ -19,17 +19,17 @@ class Player
     @width  = (exports.globalObject['field']['width'] - RADIUS) / 2
     @height = exports.globalObject['field']['height'] - 20
 
-  run: (keyCode) ->
+  move: (keyCode) ->
     keyMotion = new KeyMotion(keyCode)
     if keyMotion.pushedArrowKey()
-      @direction[keyMotion.code] = true
+      @direction[keyMotion.direction] = true
 
   stop: (keyCode) ->
     keyMotion = new KeyMotion(keyCode)
     if keyMotion.pushedArrowKey()
-      @direction[keyMotion.code] = false
+      @direction[keyMotion.direction] = false
 
-  move: ->
+  redraw: ->
     @clear()
     @judgeBehavior()
     @draw()
@@ -54,12 +54,12 @@ class Player
     exports.globalObject['canvas'].clearCanvas()
 
 class KeyMotion
-  CODE = { 37: 'left', 38: 'up', 39: 'right', 40: 'down' }
-  constructor: (keyCode) ->
-    @code = CODE[keyCode]
+  KEY = { 37: 'left', 38: 'up', 39: 'right', 40: 'down' }
+  constructor: (code) ->
+    @direction = KEY[code]
 
   pushedArrowKey: ->
-    if @code == undefined then false else true
+    if @direction == undefined then false else true
 
 class TimeKeeper
   constructor: ->
@@ -68,18 +68,18 @@ class TimeKeeper
   watch: ->
     if exports.globalObject['loop_flg'] == true
       setTimeout (timeKeeper) ->
-        exports.globalObject['player'].move()
+        exports.globalObject['player'].redraw()
         timeKeeper.watch()
-      , 1000 / 60, @
+      , 15, @
 
 $ ->
-  new Field().draw()
+  new Field.draw()
   exports.globalObject['player'] = new Player()
   exports.globalObject['player'].draw()
   new TimeKeeper().watch()
 
 $(document).on 'keydown', 'body', (e) ->
-  exports.globalObject['player'].run e.keyCode
+  exports.globalObject['player'].move e.keyCode
 
 $(document).on 'keyup', 'body', (e) ->
   exports.globalObject['player'].stop e.keyCode
