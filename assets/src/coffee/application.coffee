@@ -12,10 +12,33 @@ class Field
     exports.globalObject['canvas'][0].height = exports.globalObject['field']['height']
 
 class Player
+  RADIUS   = 10
+  DISTANCE = 5
   constructor: ->
-    @radius = 10
-    @width  = (exports.globalObject['field']['width'] - @radius) / 2
+    @direction = { left: false, up: false, right: false, down: false }
+    @width  = (exports.globalObject['field']['width'] - RADIUS) / 2
     @height = exports.globalObject['field']['height'] - 20
+
+  run: (keyCode) ->
+    keyMotion = new KeyMotion(keyCode)
+    if keyMotion.pushedArrowKey()
+      @direction[keyMotion.code] = true
+
+  stop: (keyCode) ->
+    keyMotion = new KeyMotion(keyCode)
+    if keyMotion.pushedArrowKey()
+      @direction[keyMotion.code] = false
+
+  move: ->
+    @clear()
+    @judgeBehavior()
+    @draw()
+
+  judgeBehavior: ->
+    @width -= DISTANCE if @direction['left']
+    @width += DISTANCE if @direction['right']
+    @height -= DISTANCE if @direction['up']
+    @height += DISTANCE if @direction['down']
 
   draw: ->
     exports.globalObject['canvas'].drawArc(
@@ -23,39 +46,20 @@ class Player
         fillStyle: '#fff',
         x: @width,
         y: @height,
-        radius: @radius
+        radius: RADIUS
       }
     )
 
   clear: ->
     exports.globalObject['canvas'].clearCanvas()
 
-class Movement
-  DISTANCE = 5
-  KEYDOWN = { left: 37, up: 38, right: 39, down: 40 }
-  constructor: (@keyCode) ->
+class KeyMotion
+  CODE = { 37: 'left', 38: 'up', 39: 'right', 40: 'down' }
+  constructor: (keyCode) ->
+    @code = CODE[keyCode]
 
-  doMove: ->
-    if _pushedArrowKey.call @
-      _controlMovingDirection.call @
-      exports.globalObject['player'].clear()
-      exports.globalObject['player'].draw()
-
-  _controlMovingDirection = ->
-    switch @keyCode
-      when KEYDOWN['left']
-        exports.globalObject['player'].width -= DISTANCE
-      when KEYDOWN['up']
-        exports.globalObject['player'].height -= DISTANCE
-      when KEYDOWN['right']
-        exports.globalObject['player'].width += DISTANCE
-      when KEYDOWN['down']
-        exports.globalObject['player'].height += DISTANCE
-
-  _pushedArrowKey = ->
-    unless $.inArray(
-      @keyCode, [KEYDOWN['left'], KEYDOWN['up'], KEYDOWN['right'], KEYDOWN['down']]
-    ) == -1 then true else false
+  pushedArrowKey: ->
+    if @code == undefined then false else true
 
 class TimeKeeper
   constructor: ->
@@ -64,17 +68,18 @@ class TimeKeeper
   watch: ->
     if exports.globalObject['loop_flg'] == true
       setTimeout (timeKeeper) ->
-        console.log timeKeeper.time += 1
+        exports.globalObject['player'].move()
         timeKeeper.watch()
       , 1000 / 60, @
 
 $ ->
-  exports.globalObject['timeKeeper'] = new TimeKeeper()
+  new Field().draw()
   exports.globalObject['player'] = new Player()
-  field = new Field()
-  exports.globalObject['timeKeeper'].watch()
   exports.globalObject['player'].draw()
-  field.draw()
+  new TimeKeeper().watch()
 
 $(document).on 'keydown', 'body', (e) ->
-  new Movement(e.keyCode).doMove()
+  exports.globalObject['player'].run e.keyCode
+
+$(document).on 'keyup', 'body', (e) ->
+  exports.globalObject['player'].stop e.keyCode

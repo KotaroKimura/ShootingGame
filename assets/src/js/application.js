@@ -1,4 +1,4 @@
-var Field, Movement, Player, TimeKeeper, exports;
+var Field, KeyMotion, Player, TimeKeeper, exports;
 
 exports = this;
 
@@ -24,18 +24,66 @@ Field = (function() {
 })();
 
 Player = (function() {
+  var DISTANCE, RADIUS;
+
+  RADIUS = 10;
+
+  DISTANCE = 5;
+
   function Player() {
-    this.radius = 10;
-    this.width = (exports.globalObject['field']['width'] - this.radius) / 2;
+    this.direction = {
+      left: false,
+      up: false,
+      right: false,
+      down: false
+    };
+    this.width = (exports.globalObject['field']['width'] - RADIUS) / 2;
     this.height = exports.globalObject['field']['height'] - 20;
   }
+
+  Player.prototype.run = function(keyCode) {
+    var keyMotion;
+    keyMotion = new KeyMotion(keyCode);
+    if (keyMotion.pushedArrowKey()) {
+      return this.direction[keyMotion.code] = true;
+    }
+  };
+
+  Player.prototype.stop = function(keyCode) {
+    var keyMotion;
+    keyMotion = new KeyMotion(keyCode);
+    if (keyMotion.pushedArrowKey()) {
+      return this.direction[keyMotion.code] = false;
+    }
+  };
+
+  Player.prototype.move = function() {
+    this.clear();
+    this.judgeBehavior();
+    return this.draw();
+  };
+
+  Player.prototype.judgeBehavior = function() {
+    if (this.direction['left']) {
+      this.width -= DISTANCE;
+    }
+    if (this.direction['right']) {
+      this.width += DISTANCE;
+    }
+    if (this.direction['up']) {
+      this.height -= DISTANCE;
+    }
+    if (this.direction['down']) {
+      return this.height += DISTANCE;
+    }
+  };
 
   Player.prototype.draw = function() {
     return exports.globalObject['canvas'].drawArc({
       fillStyle: '#fff',
       x: this.width,
       y: this.height,
-      radius: this.radius
+      radius: RADIUS
     });
   };
 
@@ -47,52 +95,29 @@ Player = (function() {
 
 })();
 
-Movement = (function() {
-  var DISTANCE, KEYDOWN, _controlMovingDirection, _pushedArrowKey;
+KeyMotion = (function() {
+  var CODE;
 
-  DISTANCE = 5;
-
-  KEYDOWN = {
-    left: 37,
-    up: 38,
-    right: 39,
-    down: 40
+  CODE = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down'
   };
 
-  function Movement(keyCode) {
-    this.keyCode = keyCode;
+  function KeyMotion(keyCode) {
+    this.code = CODE[keyCode];
   }
 
-  Movement.prototype.doMove = function() {
-    if (_pushedArrowKey.call(this)) {
-      _controlMovingDirection.call(this);
-      exports.globalObject['player'].clear();
-      return exports.globalObject['player'].draw();
-    }
-  };
-
-  _controlMovingDirection = function() {
-    switch (this.keyCode) {
-      case KEYDOWN['left']:
-        return exports.globalObject['player'].width -= DISTANCE;
-      case KEYDOWN['up']:
-        return exports.globalObject['player'].height -= DISTANCE;
-      case KEYDOWN['right']:
-        return exports.globalObject['player'].width += DISTANCE;
-      case KEYDOWN['down']:
-        return exports.globalObject['player'].height += DISTANCE;
-    }
-  };
-
-  _pushedArrowKey = function() {
-    if ($.inArray(this.keyCode, [KEYDOWN['left'], KEYDOWN['up'], KEYDOWN['right'], KEYDOWN['down']]) !== -1) {
-      return true;
-    } else {
+  KeyMotion.prototype.pushedArrowKey = function() {
+    if (this.code === void 0) {
       return false;
+    } else {
+      return true;
     }
   };
 
-  return Movement;
+  return KeyMotion;
 
 })();
 
@@ -104,7 +129,7 @@ TimeKeeper = (function() {
   TimeKeeper.prototype.watch = function() {
     if (exports.globalObject['loop_flg'] === true) {
       return setTimeout(function(timeKeeper) {
-        console.log(timeKeeper.time += 1);
+        exports.globalObject['player'].move();
         return timeKeeper.watch();
       }, 1000 / 60, this);
     }
@@ -115,15 +140,16 @@ TimeKeeper = (function() {
 })();
 
 $(function() {
-  var field;
-  exports.globalObject['timeKeeper'] = new TimeKeeper();
+  new Field().draw();
   exports.globalObject['player'] = new Player();
-  field = new Field();
-  exports.globalObject['timeKeeper'].watch();
   exports.globalObject['player'].draw();
-  return field.draw();
+  return new TimeKeeper().watch();
 });
 
 $(document).on('keydown', 'body', function(e) {
-  return new Movement(e.keyCode).doMove();
+  return exports.globalObject['player'].run(e.keyCode);
+});
+
+$(document).on('keyup', 'body', function(e) {
+  return exports.globalObject['player'].stop(e.keyCode);
 });
