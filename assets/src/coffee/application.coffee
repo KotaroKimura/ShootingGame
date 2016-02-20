@@ -8,16 +8,16 @@ exports.globalObject = {
 
 class Field
   @draw: ->
-    exports.globalObject['canvas'][0].width = exports.globalObject['field']['width']
-    exports.globalObject['canvas'][0].height = exports.globalObject['field']['height']
+    exports.globalObject.canvas[0].width = exports.globalObject.field.width
+    exports.globalObject.canvas[0].height = exports.globalObject.field.height
 
 class Player
   RADIUS   = 10
   DISTANCE = 5
   constructor: ->
     @direction = { left: false, up: false, right: false, down: false }
-    @width  = (exports.globalObject['field']['width'] - RADIUS) / 2
-    @height = exports.globalObject['field']['height'] - 20
+    @width  = (exports.globalObject.field.width - RADIUS) / 2
+    @height = exports.globalObject.field.height - 20
 
   move: (keyCode) ->
     keyMotion = new KeyMotion(keyCode)
@@ -35,13 +35,13 @@ class Player
     @draw()
 
   judgeBehavior: ->
-    @width -= DISTANCE if @direction['left']
-    @width += DISTANCE if @direction['right']
-    @height -= DISTANCE if @direction['up']
-    @height += DISTANCE if @direction['down']
+    @width -= DISTANCE if @direction.left
+    @width += DISTANCE if @direction.right
+    @height -= DISTANCE if @direction.up
+    @height += DISTANCE if @direction.down
 
   draw: ->
-    exports.globalObject['canvas'].drawArc(
+    exports.globalObject.canvas.drawArc(
       {
         fillStyle: '#fff',
         x: @width,
@@ -51,7 +51,7 @@ class Player
     )
 
   clear: ->
-    exports.globalObject['canvas'].clearCanvas()
+    exports.globalObject.canvas.clearCanvas()
 
 class KeyMotion
   KEY = { 37: 'left', 38: 'up', 39: 'right', 40: 'down' }
@@ -66,20 +66,20 @@ class TimeKeeper
     @time = 0
 
   watch: ->
-    if exports.globalObject['loop_flg'] == true
+    if exports.globalObject.loop_flg == true
       setTimeout (timeKeeper) ->
-        exports.globalObject['player'].redraw()
+        exports.globalObject.player.redraw()
         timeKeeper.watch()
       , 15, @
 
 $ ->
   new Field.draw()
-  exports.globalObject['player'] = new Player()
-  exports.globalObject['player'].draw()
+  exports.globalObject.player = new Player()
+  exports.globalObject.player.draw()
   new TimeKeeper().watch()
 
 $(document).on 'keydown', 'body', (e) ->
-  exports.globalObject['player'].move e.keyCode
+  exports.globalObject.player.move e.keyCode
 
 $(document).on 'keyup', 'body', (e) ->
-  exports.globalObject['player'].stop e.keyCode
+  exports.globalObject.player.stop e.keyCode
