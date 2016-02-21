@@ -1,6 +1,5 @@
 # files
 package.json
-gulpfile.coffee
 
 # folders
 vender/
