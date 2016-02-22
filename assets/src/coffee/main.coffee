@@ -1,11 +1,11 @@
 # グローバル変数をロード
-globalObject = require './global_object.js'
+globalObject = require './global_object'
 
 # モデルクラスをロード
-Field = require './model/field.js'
-Player = require './model/player.js'
-KeyMotion = require './model/key_motion.js'
-TimeKeeper = require './model/time_keeper.js'
+Field = require './model/field'
+Player = require './model/player'
+KeyMotion = require './model/key_motion'
+TimeKeeper = require './model/time_keeper'
 
 $ ->
   Field.draw()

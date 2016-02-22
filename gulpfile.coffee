@@ -19,7 +19,7 @@ gulp.task 'webpack', ->
     .pipe gulp.dest 'assets/build'
 
 gulp.task 'compile.coffee', ->
-  runSequence 'main.coffee', 'model.coffee'
+  runSequence ['main.coffee', 'model.coffee']
 
 gulp.task 'default', ->
   runSequence 'compile.coffee', 'webpack'

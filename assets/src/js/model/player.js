@@ -1,13 +1,13 @@
 var Player, globalObject;
 
-globalObject = require('../global_object.js');
+globalObject = require('../global_object');
 
 module.exports = Player = (function() {
   var ACCELERATION, FRICTION, RADIUS;
 
   RADIUS = 10;
 
-  ACCELERATION = 0.4;
+  ACCELERATION = 0.9;
 
   FRICTION = 0.91;
 

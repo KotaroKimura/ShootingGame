@@ -1,6 +1,6 @@
 var TimeKeeper, globalObject;
 
-globalObject = require('../global_object.js');
+globalObject = require('../global_object');
 
 module.exports = TimeKeeper = (function() {
   function TimeKeeper() {

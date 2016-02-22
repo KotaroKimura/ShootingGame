@@ -1,14 +1,14 @@
 var Field, KeyMotion, Player, TimeKeeper, globalObject;
 
-globalObject = require('./global_object.js');
+globalObject = require('./global_object');
 
-Field = require('./model/field.js');
+Field = require('./model/field');
 
-Player = require('./model/player.js');
+Player = require('./model/player');
 
-KeyMotion = require('./model/key_motion.js');
+KeyMotion = require('./model/key_motion');
 
-TimeKeeper = require('./model/time_keeper.js');
+TimeKeeper = require('./model/time_keeper');
 
 $(function() {
   Field.draw();

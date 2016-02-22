@@ -1,11 +1,11 @@
 # グローバル変数をロード
-globalObject = require '../global_object.js'
+globalObject = require '../global_object'
 
 module.exports = class Player
   RADIUS = 10
   # 加速率
   # 「停止」から「最高速」までの振り幅を示す
-  ACCELERATION = 0.4
+  ACCELERATION = 0.9
   # 摩擦
   # 摩擦がかかる < 1(摩擦0) < 加速する
   FRICTION = 0.91
