@@ -12,5 +12,8 @@ app.use '/vender', express.static(__dirname + '/vender')
 app.get '/', (req, res) ->
   res.sendfile 'views/coffeeTest.html'
 
+app.get '/test', (req, res) ->
+  res.sendfile 'views/specRunner.html'
+
 http.listen port, ->
   console.log 'listening on *:', port
