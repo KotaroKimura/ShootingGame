@@ -15,11 +15,11 @@ gulp.task 'model.coffee', ->
 
 gulp.task 'webpack', ->
   gulp.src 'assets/src/js/main.js'
-    .pipe webpack({ output: { filename: 'build.js' } })
+    .pipe webpack require './webpack.config.js'
     .pipe gulp.dest 'assets/build'
 
 gulp.task 'compile.coffee', ->
   runSequence ['main.coffee', 'model.coffee']
 
 gulp.task 'default', ->
-  runSequence 'compile.coffee', 'webpack'
+  runSequence 'compile.coffee'
