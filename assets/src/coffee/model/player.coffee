@@ -1,7 +1,10 @@
 # グローバル変数をロード
 globalObject = require '../global_object'
 
-module.exports = class Player
+# 親クラスをロード
+Resource = require './resource'
+
+module.exports = class Player extends Resource
   RADIUS = 10
   # 加速率
   # 「停止」から「最高速」までの振り幅を示す
@@ -11,10 +14,7 @@ module.exports = class Player
   FRICTION = 0.91
   constructor: ->
     @action_flg = { left: false, up: false, right: false, down: false }
-    @width  = 20
-    @height = (globalObject.field.height - RADIUS) / 2
-    @distance_width = 0
-    @distance_height = 0
+    super 20, (globalObject.field.height - RADIUS) / 2, 0, 0
 
   move: (direction) ->
     @action_flg[direction] = true
@@ -23,25 +23,14 @@ module.exports = class Player
     @action_flg[direction] = false
 
   redraw: ->
-    @clear()
+    _clear.call @
     @decideBehavior()
     @draw()
 
-  calculateAcceleration: ->
-    @distance_width -= ACCELERATION if @action_flg.left
-    @distance_width += ACCELERATION if @action_flg.right
-    @distance_height -= ACCELERATION if @action_flg.up
-    @distance_height += ACCELERATION if @action_flg.down
-
-  calculateFriction: ->
-    @distance_width = @distance_width * FRICTION
-    @distance_height = @distance_height * FRICTION
-
   decideBehavior: ->
-    @calculateAcceleration()
-    @calculateFriction()
-    @width += @distance_width
-    @height += @distance_height
+    _calculateAcceleration.call @
+    _calculateFriction.call @
+    super
 
   draw: ->
     globalObject.canvas.drawArc(
@@ -53,5 +42,15 @@ module.exports = class Player
       }
     )
 
-  clear: ->
+  _calculateAcceleration = ->
+    @distance_width -= ACCELERATION if @action_flg.left
+    @distance_width += ACCELERATION if @action_flg.right
+    @distance_height -= ACCELERATION if @action_flg.up
+    @distance_height += ACCELERATION if @action_flg.down
+
+  _calculateFriction = ->
+    @distance_width = @distance_width * FRICTION
+    @distance_height = @distance_height * FRICTION
+
+  _clear = ->
     globalObject.canvas.clearCanvas()

@@ -1,9 +1,15 @@
-var Player, globalObject;
+var Player, Resource, globalObject,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 globalObject = require('../global_object');
 
-module.exports = Player = (function() {
-  var ACCELERATION, FRICTION, RADIUS;
+Resource = require('./resource');
+
+module.exports = Player = (function(superClass) {
+  var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction, _clear;
+
+  extend(Player, superClass);
 
   RADIUS = 10;
 
@@ -18,10 +24,7 @@ module.exports = Player = (function() {
       right: false,
       down: false
     };
-    this.width = 20;
-    this.height = (globalObject.field.height - RADIUS) / 2;
-    this.distance_width = 0;
-    this.distance_height = 0;
+    Player.__super__.constructor.call(this, 20, (globalObject.field.height - RADIUS) / 2, 0, 0);
   }
 
   Player.prototype.move = function(direction) {
@@ -33,12 +36,27 @@ module.exports = Player = (function() {
   };
 
   Player.prototype.redraw = function() {
-    this.clear();
+    _clear.call(this);
     this.decideBehavior();
     return this.draw();
   };
 
-  Player.prototype.calculateAcceleration = function() {
+  Player.prototype.decideBehavior = function() {
+    _calculateAcceleration.call(this);
+    _calculateFriction.call(this);
+    return Player.__super__.decideBehavior.apply(this, arguments);
+  };
+
+  Player.prototype.draw = function() {
+    return globalObject.canvas.drawArc({
+      fillStyle: '#fff',
+      x: this.width,
+      y: this.height,
+      radius: RADIUS
+    });
+  };
+
+  _calculateAcceleration = function() {
     if (this.action_flg.left) {
       this.distance_width -= ACCELERATION;
     }
@@ -53,31 +71,15 @@ module.exports = Player = (function() {
     }
   };
 
-  Player.prototype.calculateFriction = function() {
+  _calculateFriction = function() {
     this.distance_width = this.distance_width * FRICTION;
     return this.distance_height = this.distance_height * FRICTION;
   };
 
-  Player.prototype.decideBehavior = function() {
-    this.calculateAcceleration();
-    this.calculateFriction();
-    this.width += this.distance_width;
-    return this.height += this.distance_height;
-  };
-
-  Player.prototype.draw = function() {
-    return globalObject.canvas.drawArc({
-      fillStyle: '#fff',
-      x: this.width,
-      y: this.height,
-      radius: RADIUS
-    });
-  };
-
-  Player.prototype.clear = function() {
+  _clear = function() {
     return globalObject.canvas.clearCanvas();
   };
 
   return Player;
 
-})();
+})(Resource);
