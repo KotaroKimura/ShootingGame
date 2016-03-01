@@ -1,10 +1,10 @@
-var Player, Resource, globalObject,
+var Actor, Player, globalObject,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 globalObject = require('../global_object');
 
-Resource = require('./resource');
+Actor = require('./actor');
 
 module.exports = Player = (function(superClass) {
   var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction, _clear;
@@ -82,4 +82,4 @@ module.exports = Player = (function(superClass) {
 
   return Player;
 
-})(Resource);
+})(Actor);

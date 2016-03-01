@@ -2,9 +2,9 @@
 globalObject = require '../global_object'
 
 # 親クラスをロード
-Resource = require './resource'
+Actor = require './actor'
 
-module.exports = class Player extends Resource
+module.exports = class Player extends Actor
   RADIUS = 10
   # 加速率
   # 「停止」から「最高速」までの振り幅を示す

@@ -1,18 +1,18 @@
-var Resource;
+var Actor;
 
-module.exports = Resource = (function() {
-  function Resource(width, height, distance_width, distance_height) {
+module.exports = Actor = (function() {
+  function Actor(width, height, distance_width, distance_height) {
     this.width = width;
     this.height = height;
     this.distance_width = distance_width;
     this.distance_height = distance_height;
   }
 
-  Resource.prototype.decideBehavior = function() {
+  Actor.prototype.decideBehavior = function() {
     this.width += this.distance_width;
     return this.height += this.distance_height;
   };
 
-  return Resource;
+  return Actor;
 
 })();

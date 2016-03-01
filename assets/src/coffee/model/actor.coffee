@@ -1,4 +1,4 @@
-module.exports = class Resource
+module.exports = class Actor
   constructor: (@width, @height, @distance_width, @distance_height) ->
 
   decideBehavior: ->
