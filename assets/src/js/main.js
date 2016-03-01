@@ -13,7 +13,6 @@ TimeKeeper = require('./model/time_keeper');
 $(function() {
   Field.draw();
   globalObject.player = new Player();
-  globalObject.player.draw();
   return new TimeKeeper().watch();
 });
 
@@ -30,5 +29,13 @@ $(document).on('keyup', 'body', function(e) {
   keyMotion = new KeyMotion(e.keyCode);
   if (keyMotion.pushedArrowKey()) {
     return globalObject.player.stop(keyMotion.direction);
+  }
+});
+
+$(document).on('keydown', 'body', function(e) {
+  var keyMotion;
+  keyMotion = new KeyMotion(e.keyCode);
+  if (keyMotion.pushedSpaceKey()) {
+    return globalObject.player.shotBullet();
   }
 });

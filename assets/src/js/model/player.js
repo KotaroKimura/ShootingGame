@@ -1,4 +1,4 @@
-var Actor, Player, globalObject,
+var Actor, Bullet, Player, globalObject,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -6,8 +6,10 @@ globalObject = require('../global_object');
 
 Actor = require('./actor');
 
+Bullet = require('./bullet');
+
 module.exports = Player = (function(superClass) {
-  var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction, _clear;
+  var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction;
 
   extend(Player, superClass);
 
@@ -18,6 +20,7 @@ module.exports = Player = (function(superClass) {
   FRICTION = 0.91;
 
   function Player() {
+    this.magazines = [];
     this.action_flg = {
       left: false,
       up: false,
@@ -35,25 +38,21 @@ module.exports = Player = (function(superClass) {
     return this.action_flg[direction] = false;
   };
 
-  Player.prototype.redraw = function() {
-    _clear.call(this);
-    this.decideBehavior();
-    return this.draw();
+  Player.prototype.shotBullet = function() {
+    var bullet;
+    bullet = new Bullet(this.width, this.height);
+    bullet.shot();
+    return this.magazines.push(bullet);
+  };
+
+  Player.prototype.draw = function() {
+    return Player.__super__.draw.call(this, '#fff', RADIUS);
   };
 
   Player.prototype.decideBehavior = function() {
     _calculateAcceleration.call(this);
     _calculateFriction.call(this);
     return Player.__super__.decideBehavior.apply(this, arguments);
-  };
-
-  Player.prototype.draw = function() {
-    return globalObject.canvas.drawArc({
-      fillStyle: '#fff',
-      x: this.width,
-      y: this.height,
-      radius: RADIUS
-    });
   };
 
   _calculateAcceleration = function() {
@@ -74,10 +73,6 @@ module.exports = Player = (function(superClass) {
   _calculateFriction = function() {
     this.distance_width = this.distance_width * FRICTION;
     return this.distance_height = this.distance_height * FRICTION;
-  };
-
-  _clear = function() {
-    return globalObject.canvas.clearCanvas();
   };
 
   return Player;

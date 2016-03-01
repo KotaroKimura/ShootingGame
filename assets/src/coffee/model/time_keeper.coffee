@@ -6,8 +6,8 @@ module.exports = class TimeKeeper
     @time = 0
 
   watch: ->
-    if globalObject.loop_flg == true
+    if globalObject.loop_flg is true
       setTimeout (timeKeeper) ->
-        globalObject.player.redraw()
+        globalObject.player.draw()
         timeKeeper.watch()
       , 15, @

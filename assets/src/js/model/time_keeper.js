@@ -10,7 +10,7 @@ module.exports = TimeKeeper = (function() {
   TimeKeeper.prototype.watch = function() {
     if (globalObject.loop_flg === true) {
       return setTimeout(function(timeKeeper) {
-        globalObject.player.redraw();
+        globalObject.player.draw();
         return timeKeeper.watch();
       }, 15, this);
     }

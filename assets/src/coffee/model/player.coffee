@@ -1,8 +1,9 @@
 # グローバル変数をロード
 globalObject = require '../global_object'
 
-# 親クラスをロード
+# モデルクラスをロード
 Actor = require './actor'
+Bullet = require './bullet'
 
 module.exports = class Player extends Actor
   RADIUS = 10
@@ -13,6 +14,7 @@ module.exports = class Player extends Actor
   # 摩擦がかかる < 1(摩擦0) < 加速する
   FRICTION = 0.91
   constructor: ->
+    @magazines  = [] # Bulletクラスのオブジェクトを格納するインスタンス変数
     @action_flg = { left: false, up: false, right: false, down: false }
     super 20, (globalObject.field.height - RADIUS) / 2, 0, 0
 
@@ -22,25 +24,20 @@ module.exports = class Player extends Actor
   stop: (direction) ->
     @action_flg[direction] = false
 
-  redraw: ->
-    _clear.call @
-    @decideBehavior()
-    @draw()
+  shotBullet: ->
+    bullet = new Bullet(@width, @height)
+    bullet.shot()
+    @magazines.push(bullet)
 
+  # override
+  draw: ->
+    super '#fff', RADIUS
+
+  # override
   decideBehavior: ->
     _calculateAcceleration.call @
     _calculateFriction.call @
     super
-
-  draw: ->
-    globalObject.canvas.drawArc(
-      {
-        fillStyle: '#fff',
-        x: @width,
-        y: @height,
-        radius: RADIUS
-      }
-    )
 
   _calculateAcceleration = ->
     @distance_width -= ACCELERATION if @action_flg.left
@@ -51,6 +48,3 @@ module.exports = class Player extends Actor
   _calculateFriction = ->
     @distance_width = @distance_width * FRICTION
     @distance_height = @distance_height * FRICTION
-
-  _clear = ->
-    globalObject.canvas.clearCanvas()
