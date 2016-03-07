@@ -4,8 +4,8 @@ Actor = require './actor'
 module.exports = class Bullet extends Actor
   RADIUS = 5
   constructor: (play_width, play_height) ->
-    @active_flg = false
-    super play_width + 10, play_height, 0, 0
+    @active_flg = false # 画面に表示されているかどうかの判定flg
+    super play_width + 15, play_height, 0, 0
 
   clear: ->
     @width      = 0
@@ -21,7 +21,7 @@ module.exports = class Bullet extends Actor
     @height = play_height
 
   move: ->
-    @distance_width = 12.5
+    @distance_width = 15
     @draw()
 
   # override

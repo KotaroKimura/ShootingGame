@@ -9,7 +9,7 @@ module.exports = Magazine = (function() {
     this.list = [];
   }
 
-  Magazine.prototype.drawBullets = function() {
+  Magazine.prototype.drawActiveBullets = function() {
     var bullet, i, len, ref, results;
     ref = this.getActiveBullets();
     results = [];

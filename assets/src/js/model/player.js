@@ -11,7 +11,7 @@ Bullet = require('./bullet');
 Magazine = require('./magazine');
 
 module.exports = Player = (function(superClass) {
-  var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction, _shotNewBullet, _shotReloadedBullet;
+  var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction, _canShotBullet, _shotBullet, _shotNewBullet, _shotReloadedBullet;
 
   extend(Player, superClass);
 
@@ -23,6 +23,7 @@ module.exports = Player = (function(superClass) {
 
   function Player() {
     this.magazine = new Magazine();
+    this.shot_flg = false;
     this.active_flg = {
       left: false,
       up: false,
@@ -40,6 +41,14 @@ module.exports = Player = (function(superClass) {
     return this.active_flg[direction] = false;
   };
 
+  Player.prototype.shot = function() {
+    return this.shot_flg = true;
+  };
+
+  Player.prototype.stopShotting = function() {
+    return this.shot_flg = false;
+  };
+
   Player.prototype.draw = function() {
     return Player.__super__.draw.call(this, '#fff', RADIUS);
   };
@@ -50,7 +59,22 @@ module.exports = Player = (function(superClass) {
     return Player.__super__.decideBehavior.apply(this, arguments);
   };
 
-  Player.prototype.shotBullet = function() {
+  Player.prototype.drawBullets = function(loop_times) {
+    if (_canShotBullet.call(this, loop_times)) {
+      _shotBullet.call(this);
+    }
+    return this.magazine.drawActiveBullets();
+  };
+
+  _canShotBullet = function(loop_times) {
+    if ((this.shot_flg === true) && (loop_times % 10 === 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  _shotBullet = function() {
     var reloaded_bullets;
     reloaded_bullets = this.magazine.getReloadedBullets();
     if (reloaded_bullets.length === 0) {

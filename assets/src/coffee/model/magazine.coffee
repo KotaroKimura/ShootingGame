@@ -8,7 +8,7 @@ module.exports = class Magazine
   constructor: ->
     @list = []
 
-  drawBullets: ->
+  drawActiveBullets: ->
     for bullet in @getActiveBullets()
       if globalObject.field.width > bullet.width then bullet.move() else bullet.clear()
 

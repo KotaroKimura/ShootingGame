@@ -13,7 +13,7 @@ module.exports = Bullet = (function(superClass) {
 
   function Bullet(play_width, play_height) {
     this.active_flg = false;
-    Bullet.__super__.constructor.call(this, play_width + 10, play_height, 0, 0);
+    Bullet.__super__.constructor.call(this, play_width + 15, play_height, 0, 0);
   }
 
   Bullet.prototype.clear = function() {
@@ -33,7 +33,7 @@ module.exports = Bullet = (function(superClass) {
   };
 
   Bullet.prototype.move = function() {
-    this.distance_width = 12.5;
+    this.distance_width = 15;
     return this.draw();
   };
 

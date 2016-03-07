@@ -16,6 +16,7 @@ module.exports = class Player extends Actor
   FRICTION = 0.91
   constructor: ->
     @magazine   = new Magazine() #bulletクラスのインスタンスを格納するクラス
+    @shot_flg   = false
     @active_flg =
       left : false
       up   : false
@@ -29,6 +30,12 @@ module.exports = class Player extends Actor
   stop: (direction) ->
     @active_flg[direction] = false
 
+  shot: ->
+    @shot_flg = true
+
+  stopShotting: ->
+    @shot_flg = false
+
   # override
   draw: ->
     super '#fff', RADIUS
@@ -39,7 +46,14 @@ module.exports = class Player extends Actor
     _calculateFriction.call @
     super
 
-  shotBullet: ->
+  drawBullets: (loop_times) ->
+    _shotBullet.call @ if _canShotBullet.call @, loop_times
+    @magazine.drawActiveBullets()
+
+  _canShotBullet = (loop_times) ->
+    if (@shot_flg is true) and (loop_times % 10 is 0) then true else false # 銃弾を打つ間隔を広くする
+
+  _shotBullet = ->
     reloaded_bullets = @magazine.getReloadedBullets()
     if reloaded_bullets.length is 0
       _shotNewBullet.call @
