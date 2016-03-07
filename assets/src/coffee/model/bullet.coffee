@@ -7,7 +7,7 @@ module.exports = class Bullet extends Actor
     @active_flg = false
     super play_width + 10, play_height, 0, 0
 
-  init: ->
+  clear: ->
     @width      = 0
     @height     = 0
     @active_flg = false
@@ -16,8 +16,12 @@ module.exports = class Bullet extends Actor
     @active_flg = true
     @draw()
 
+  relocate: (play_width, play_height) ->
+    @width  = play_width
+    @height = play_height
+
   move: ->
-    @distance_width = 5
+    @distance_width = 12.5
     @draw()
 
   # override

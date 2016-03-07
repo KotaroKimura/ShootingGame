@@ -18,13 +18,13 @@ module.exports = Magazine = (function() {
       if (globalObject.field.width > bullet.width) {
         results.push(bullet.move());
       } else {
-        results.push(bullet.init());
+        results.push(bullet.clear());
       }
     }
     return results;
   };
 
-  Magazine.prototype.getreloadedBullets = function() {
+  Magazine.prototype.getReloadedBullets = function() {
     var bullet, i, len, ref, results;
     ref = this.list;
     results = [];
@@ -48,6 +48,12 @@ module.exports = Magazine = (function() {
       }
     }
     return results;
+  };
+
+  Magazine.prototype.logBullets = function() {
+    console.log("弾倉内の銃弾総数は「" + this.list.length + "」");
+    console.log("画面上に表示中の銃弾数は「" + (this.getActiveBullets().length) + "」");
+    return console.log("再利用可能な銃弾数は「" + (this.getReloadedBullets().length) + "」");
   };
 
   return Magazine;

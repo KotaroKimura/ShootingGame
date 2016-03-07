@@ -37,6 +37,7 @@ $(document).on('keydown', 'body', function(e) {
   var keyMotion;
   keyMotion = new KeyMotion(e.keyCode);
   if (keyMotion.pushedSpaceKey()) {
-    return globalObject.player.shotBullet();
+    globalObject.player.shotBullet();
+    return globalObject.player.magazine.logBullets();
   }
 });

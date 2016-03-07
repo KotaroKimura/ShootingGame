@@ -40,21 +40,20 @@ module.exports = class Player extends Actor
     super
 
   shotBullet: ->
-    reloaded_bullets = @magazine.getreloadedBullets()
+    reloaded_bullets = @magazine.getReloadedBullets()
     if reloaded_bullets.length is 0
       _shotNewBullet.call @
     else
-      _shotLoadedBullet.call @, reloaded_bullets[0] # 再利用可能なbulletオブジェクトを任意に取得
+      _shotReloadedBullet.call @, reloaded_bullets[0] # 再利用可能なbulletオブジェクトを任意に取得
 
   _shotNewBullet = ->
     bullet = new Bullet @width, @height
     bullet.shot()
     @magazine.list.push bullet
 
-  _shotLoadedBullet = (reloaded_bullet) ->
-    reloaded_bullet.width  = @width
-    reloaded_bullet.height = @height
-    reloaded_bullet.shot()
+  _shotReloadedBullet = (bullet) ->
+    bullet.relocate @width, @height
+    bullet.shot()
 
   _calculateAcceleration = ->
     @distance_width -= ACCELERATION if @active_flg.left

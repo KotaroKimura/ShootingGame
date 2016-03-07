@@ -27,4 +27,4 @@ $(document).on 'keydown', 'body', (e) ->
   keyMotion = new KeyMotion e.keyCode
   if keyMotion.pushedSpaceKey()
     globalObject.player.shotBullet()
-
+    globalObject.player.magazine.logBullets()
