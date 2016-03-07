@@ -7,6 +7,11 @@ module.exports = class Bullet extends Actor
     @active_flg = false
     super play_width + 10, play_height, 0, 0
 
+  init: ->
+    @width      = 0
+    @height     = 0
+    @active_flg = false
+
   shot: ->
     @active_flg = true
     @draw()

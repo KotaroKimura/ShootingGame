@@ -16,6 +16,12 @@ module.exports = Bullet = (function(superClass) {
     Bullet.__super__.constructor.call(this, play_width + 10, play_height, 0, 0);
   }
 
+  Bullet.prototype.init = function() {
+    this.width = 0;
+    this.height = 0;
+    return this.active_flg = false;
+  };
+
   Bullet.prototype.shot = function() {
     this.active_flg = true;
     return this.draw();

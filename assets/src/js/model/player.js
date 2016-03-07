@@ -11,7 +11,7 @@ Bullet = require('./bullet');
 Magazine = require('./magazine');
 
 module.exports = Player = (function(superClass) {
-  var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction;
+  var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction, _shotLoadedBullet, _shotNewBullet;
 
   extend(Player, superClass);
 
@@ -40,13 +40,6 @@ module.exports = Player = (function(superClass) {
     return this.active_flg[direction] = false;
   };
 
-  Player.prototype.shotBullet = function() {
-    var bullet;
-    bullet = new Bullet(this.width, this.height);
-    bullet.shot();
-    return this.magazine.list.push(bullet);
-  };
-
   Player.prototype.draw = function() {
     return Player.__super__.draw.call(this, '#fff', RADIUS);
   };
@@ -55,6 +48,29 @@ module.exports = Player = (function(superClass) {
     _calculateAcceleration.call(this);
     _calculateFriction.call(this);
     return Player.__super__.decideBehavior.apply(this, arguments);
+  };
+
+  Player.prototype.shotBullet = function() {
+    var reloaded_bullets;
+    reloaded_bullets = this.magazine.getreloadedBullets();
+    if (reloaded_bullets.length === 0) {
+      return _shotNewBullet.call(this);
+    } else {
+      return _shotLoadedBullet.call(this, reloaded_bullets[0]);
+    }
+  };
+
+  _shotNewBullet = function() {
+    var bullet;
+    bullet = new Bullet(this.width, this.height);
+    bullet.shot();
+    return this.magazine.list.push(bullet);
+  };
+
+  _shotLoadedBullet = function(reloaded_bullet) {
+    reloaded_bullet.width = this.width;
+    reloaded_bullet.height = this.height;
+    return reloaded_bullet.shot();
   };
 
   _calculateAcceleration = function() {

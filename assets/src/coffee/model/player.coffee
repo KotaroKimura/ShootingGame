@@ -16,7 +16,11 @@ module.exports = class Player extends Actor
   FRICTION = 0.91
   constructor: ->
     @magazine   = new Magazine() #bulletクラスのインスタンスを格納するクラス
-    @active_flg = { left: false, up: false, right: false, down: false }
+    @active_flg =
+      left : false
+      up   : false
+      right: false
+      down : false
     super 20, (globalObject.field.height - RADIUS) / 2, 0, 0
 
   move: (direction) ->
@@ -24,11 +28,6 @@ module.exports = class Player extends Actor
 
   stop: (direction) ->
     @active_flg[direction] = false
-
-  shotBullet: ->
-    bullet = new Bullet @width, @height
-    bullet.shot()
-    @magazine.list.push bullet
 
   # override
   draw: ->
@@ -39,6 +38,23 @@ module.exports = class Player extends Actor
     _calculateAcceleration.call @
     _calculateFriction.call @
     super
+
+  shotBullet: ->
+    reloaded_bullets = @magazine.getreloadedBullets()
+    if reloaded_bullets.length is 0
+      _shotNewBullet.call @
+    else
+      _shotLoadedBullet.call @, reloaded_bullets[0] # 再利用可能なbulletオブジェクトを任意に取得
+
+  _shotNewBullet = ->
+    bullet = new Bullet @width, @height
+    bullet.shot()
+    @magazine.list.push bullet
+
+  _shotLoadedBullet = (reloaded_bullet) ->
+    reloaded_bullet.width  = @width
+    reloaded_bullet.height = @height
+    reloaded_bullet.shot()
 
   _calculateAcceleration = ->
     @distance_width -= ACCELERATION if @active_flg.left

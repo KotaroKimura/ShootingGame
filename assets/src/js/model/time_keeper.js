@@ -9,7 +9,8 @@ module.exports = TimeKeeper = (function() {
     return setTimeout(function(timeKeeper) {
       globalObject.canvas.clearCanvas();
       globalObject.player.draw();
-      globalObject.player.magazine.drawActiveBullets();
+      globalObject.player.magazine.drawBullets();
+      console.log(globalObject.player.magazine.list.length);
       return timeKeeper.watch();
     }, 15, this);
   };
