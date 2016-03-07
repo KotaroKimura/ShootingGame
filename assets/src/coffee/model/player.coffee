@@ -4,6 +4,7 @@ globalObject = require '../global_object'
 # モデルクラスをロード
 Actor = require './actor'
 Bullet = require './bullet'
+Magazine = require './magazine'
 
 module.exports = class Player extends Actor
   RADIUS = 10
@@ -14,20 +15,20 @@ module.exports = class Player extends Actor
   # 摩擦がかかる < 1(摩擦0) < 加速する
   FRICTION = 0.91
   constructor: ->
-    @magazines  = [] # Bulletクラスのオブジェクトを格納するインスタンス変数
-    @action_flg = { left: false, up: false, right: false, down: false }
+    @magazine   = new Magazine() #bulletクラスのインスタンスを格納するクラス
+    @active_flg = { left: false, up: false, right: false, down: false }
     super 20, (globalObject.field.height - RADIUS) / 2, 0, 0
 
   move: (direction) ->
-    @action_flg[direction] = true
+    @active_flg[direction] = true
 
   stop: (direction) ->
-    @action_flg[direction] = false
+    @active_flg[direction] = false
 
   shotBullet: ->
-    bullet = new Bullet(@width, @height)
+    bullet = new Bullet @width, @height
     bullet.shot()
-    @magazines.push(bullet)
+    @magazine.list.push bullet
 
   # override
   draw: ->
@@ -40,10 +41,10 @@ module.exports = class Player extends Actor
     super
 
   _calculateAcceleration = ->
-    @distance_width -= ACCELERATION if @action_flg.left
-    @distance_width += ACCELERATION if @action_flg.right
-    @distance_height -= ACCELERATION if @action_flg.up
-    @distance_height += ACCELERATION if @action_flg.down
+    @distance_width -= ACCELERATION if @active_flg.left
+    @distance_width += ACCELERATION if @active_flg.right
+    @distance_height -= ACCELERATION if @active_flg.up
+    @distance_height += ACCELERATION if @active_flg.down
 
   _calculateFriction = ->
     @distance_width = @distance_width * FRICTION

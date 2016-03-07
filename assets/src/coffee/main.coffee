@@ -10,6 +10,7 @@ TimeKeeper = require './model/time_keeper'
 $ ->
   Field.draw()
   globalObject.player = new Player()
+  globalObject.player.draw()
   new TimeKeeper().watch()
 
 $(document).on 'keydown', 'body', (e) ->

@@ -3,17 +3,15 @@ var TimeKeeper, globalObject;
 globalObject = require('../global_object');
 
 module.exports = TimeKeeper = (function() {
-  function TimeKeeper() {
-    this.time = 0;
-  }
+  function TimeKeeper() {}
 
   TimeKeeper.prototype.watch = function() {
-    if (globalObject.loop_flg === true) {
-      return setTimeout(function(timeKeeper) {
-        globalObject.player.draw();
-        return timeKeeper.watch();
-      }, 15, this);
-    }
+    return setTimeout(function(timeKeeper) {
+      globalObject.canvas.clearCanvas();
+      globalObject.player.draw();
+      globalObject.player.magazine.drawActiveBullets();
+      return timeKeeper.watch();
+    }, 15, this);
   };
 
   return TimeKeeper;

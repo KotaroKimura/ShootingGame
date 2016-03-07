@@ -2,12 +2,10 @@
 globalObject = require '../global_object'
 
 module.exports = class TimeKeeper
-  constructor: ->
-    @time = 0
-
   watch: ->
-    if globalObject.loop_flg is true
-      setTimeout (timeKeeper) ->
-        globalObject.player.draw()
-        timeKeeper.watch()
-      , 15, @
+    setTimeout (timeKeeper) ->
+      globalObject.canvas.clearCanvas()
+      globalObject.player.draw()
+      globalObject.player.magazine.drawActiveBullets()
+      timeKeeper.watch()
+    , 15, @

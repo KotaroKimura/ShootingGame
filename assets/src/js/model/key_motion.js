@@ -1,7 +1,9 @@
 var KeyMotion;
 
 module.exports = KeyMotion = (function() {
-  var ARROW_KEY;
+  var ARROW_KEY, SPACE_KEY;
+
+  SPACE_KEY = 32;
 
   ARROW_KEY = {
     37: 'left',
@@ -24,7 +26,7 @@ module.exports = KeyMotion = (function() {
   };
 
   KeyMotion.prototype.pushedSpaceKey = function() {
-    if (this.code === 32) {
+    if (this.code === SPACE_KEY) {
       return true;
     } else {
       return false;

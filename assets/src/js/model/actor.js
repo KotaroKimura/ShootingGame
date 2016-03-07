@@ -3,7 +3,7 @@ var Actor, globalObject;
 globalObject = require('../global_object');
 
 module.exports = Actor = (function() {
-  var _clear, _drawArc;
+  var _drawArc;
 
   function Actor(width, height, distance_width, distance_height) {
     this.width = width;
@@ -13,7 +13,6 @@ module.exports = Actor = (function() {
   }
 
   Actor.prototype.draw = function(color, radius) {
-    _clear.call(this);
     this.decideBehavior();
     return _drawArc.call(this, color, radius);
   };
@@ -30,10 +29,6 @@ module.exports = Actor = (function() {
       y: this.height,
       radius: radius
     });
-  };
-
-  _clear = function() {
-    return globalObject.canvas.clearCanvas();
   };
 
   return Actor;
