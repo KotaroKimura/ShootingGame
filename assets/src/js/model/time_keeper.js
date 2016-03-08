@@ -4,16 +4,18 @@ globalObject = require('../global_object');
 
 module.exports = TimeKeeper = (function() {
   function TimeKeeper() {
-    this.time = 0;
+    this.times = 0;
   }
 
   TimeKeeper.prototype.watch = function() {
-    if (globalObject.loop_flg === true) {
-      return setTimeout(function(timeKeeper) {
-        globalObject.player.redraw();
-        return timeKeeper.watch();
-      }, 15, this);
-    }
+    return setTimeout(function(timeKeeper) {
+      globalObject.canvas.clearCanvas();
+      globalObject.player.draw();
+      globalObject.player.drawBullets(timeKeeper.times);
+      globalObject.player.magazine.logBullets();
+      timeKeeper.times++;
+      return timeKeeper.watch();
+    }, 20, this);
   };
 
   return TimeKeeper;

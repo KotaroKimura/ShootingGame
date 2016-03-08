@@ -14,11 +14,21 @@ $ ->
   new TimeKeeper().watch()
 
 $(document).on 'keydown', 'body', (e) ->
-  keyMotion = new KeyMotion(e.keyCode)
+  keyMotion = new KeyMotion e.keyCode
   if keyMotion.pushedArrowKey()
     globalObject.player.move keyMotion.direction
 
 $(document).on 'keyup', 'body', (e) ->
-  keyMotion = new KeyMotion(e.keyCode)
+  keyMotion = new KeyMotion e.keyCode
   if keyMotion.pushedArrowKey()
     globalObject.player.stop keyMotion.direction
+
+$(document).on 'keydown', 'body', (e) ->
+  keyMotion = new KeyMotion e.keyCode
+  if keyMotion.pushedSpaceKey()
+    globalObject.player.shot()
+
+$(document).on 'keyup', 'body', (e) ->
+  keyMotion = new KeyMotion e.keyCode
+  if keyMotion.pushedSpaceKey()
+    globalObject.player.stopShotting()

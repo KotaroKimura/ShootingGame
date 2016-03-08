@@ -1,9 +1,11 @@
 var KeyMotion;
 
 module.exports = KeyMotion = (function() {
-  var KEY;
+  var ARROW_KEY, SPACE_KEY;
 
-  KEY = {
+  SPACE_KEY = 32;
+
+  ARROW_KEY = {
     37: 'left',
     38: 'up',
     39: 'right',
@@ -11,7 +13,8 @@ module.exports = KeyMotion = (function() {
   };
 
   function KeyMotion(code) {
-    this.direction = KEY[code];
+    this.code = code;
+    this.direction = ARROW_KEY[this.code];
   }
 
   KeyMotion.prototype.pushedArrowKey = function() {
@@ -19,6 +22,14 @@ module.exports = KeyMotion = (function() {
       return false;
     } else {
       return true;
+    }
+  };
+
+  KeyMotion.prototype.pushedSpaceKey = function() {
+    if (this.code === SPACE_KEY) {
+      return true;
+    } else {
+      return false;
     }
   };
 

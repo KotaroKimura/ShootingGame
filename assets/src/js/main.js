@@ -32,3 +32,19 @@ $(document).on('keyup', 'body', function(e) {
     return globalObject.player.stop(keyMotion.direction);
   }
 });
+
+$(document).on('keydown', 'body', function(e) {
+  var keyMotion;
+  keyMotion = new KeyMotion(e.keyCode);
+  if (keyMotion.pushedSpaceKey()) {
+    return globalObject.player.shot();
+  }
+});
+
+$(document).on('keyup', 'body', function(e) {
+  var keyMotion;
+  keyMotion = new KeyMotion(e.keyCode);
+  if (keyMotion.pushedSpaceKey()) {
+    return globalObject.player.stopShotting();
+  }
+});

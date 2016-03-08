@@ -1,7 +1,12 @@
 # グローバル変数をロード
 globalObject = require '../global_object'
 
-module.exports = class Player
+# モデルクラスをロード
+Actor = require './actor'
+Bullet = require './bullet'
+Magazine = require './magazine'
+
+module.exports = class Player extends Actor
   RADIUS = 10
   # 加速率
   # 「停止」から「最高速」までの振り幅を示す
@@ -10,48 +15,66 @@ module.exports = class Player
   # 摩擦がかかる < 1(摩擦0) < 加速する
   FRICTION = 0.91
   constructor: ->
-    @action_flg = { left: false, up: false, right: false, down: false }
-    @width  = 20
-    @height = (globalObject.field.height - RADIUS) / 2
-    @distance_width = 0
-    @distance_height = 0
+    @magazine   = new Magazine() #bulletクラスのインスタンスを格納するクラス
+    @shot_flg   = false
+    @active_flg =
+      left : false
+      up   : false
+      right: false
+      down : false
+    super 20, (globalObject.field.height - RADIUS) / 2, 0, 0
 
   move: (direction) ->
-    @action_flg[direction] = true
+    @active_flg[direction] = true
 
   stop: (direction) ->
-    @action_flg[direction] = false
+    @active_flg[direction] = false
 
-  redraw: ->
-    @clear()
-    @decideBehavior()
-    @draw()
+  shot: ->
+    @shot_flg = true
 
-  calculateAcceleration: ->
-    @distance_width -= ACCELERATION if @action_flg.left
-    @distance_width += ACCELERATION if @action_flg.right
-    @distance_height -= ACCELERATION if @action_flg.up
-    @distance_height += ACCELERATION if @action_flg.down
+  stopShotting: ->
+    @shot_flg = false
 
-  calculateFriction: ->
+  # override
+  draw: ->
+    super '#fff', RADIUS
+
+  # override
+  decideBehavior: ->
+    _calculateAcceleration.call @
+    _calculateFriction.call @
+    super
+
+  drawBullets: (loop_times) ->
+    _shotBullet.call @ if _canShotBullet.call @, loop_times
+    @magazine.drawActiveBullets()
+
+  _canShotBullet = (loop_times) ->
+    if (@shot_flg is true) and (loop_times % 10 is 0) then true else false # 銃弾を打つ間隔を広くする
+
+  _shotBullet = ->
+    reloaded_bullets = @magazine.getReloadedBullets()
+    if reloaded_bullets.length is 0
+      _shotNewBullet.call @
+    else
+      _shotReloadedBullet.call @, reloaded_bullets[0] # 再利用可能なbulletオブジェクトを任意に取得
+
+  _shotNewBullet = ->
+    bullet = new Bullet @width, @height
+    bullet.shot()
+    @magazine.list.push bullet
+
+  _shotReloadedBullet = (bullet) ->
+    bullet.relocate @width, @height
+    bullet.shot()
+
+  _calculateAcceleration = ->
+    @distance_width -= ACCELERATION if @active_flg.left
+    @distance_width += ACCELERATION if @active_flg.right
+    @distance_height -= ACCELERATION if @active_flg.up
+    @distance_height += ACCELERATION if @active_flg.down
+
+  _calculateFriction = ->
     @distance_width = @distance_width * FRICTION
     @distance_height = @distance_height * FRICTION
-
-  decideBehavior: ->
-    @calculateAcceleration()
-    @calculateFriction()
-    @width += @distance_width
-    @height += @distance_height
-
-  draw: ->
-    globalObject.canvas.drawArc(
-      {
-        fillStyle: '#fff',
-        x: @width,
-        y: @height,
-        radius: RADIUS
-      }
-    )
-
-  clear: ->
-    globalObject.canvas.clearCanvas()
