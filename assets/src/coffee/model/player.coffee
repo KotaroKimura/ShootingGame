@@ -23,18 +23,13 @@ module.exports = class Player extends Actor
     super '#fff', RADIUS
 
   # override
-  decideBehavior: ->
-    @resetDistance()
-    _calculateDistance.call @
-    super
+  calculateDistanceEachActor: ->
+    @moveLeft  DISTANCE if _canMoveLeft.call @
+    @moveRight DISTANCE if _canMoveRight.call @
+    @moveUp    DISTANCE if _canMoveUp.call @
+    @moveDwon  DISTANCE if _canMoveDown.call @
 
   ### プライベートメソッド群 ###
-  _calculateDistance = ->
-    @distance_width  = -DISTANCE if _canMoveLeft.call @
-    @distance_width  =  DISTANCE if _canMoveRight.call @
-    @distance_height = -DISTANCE if _canMoveUp.call @
-    @distance_height =  DISTANCE if _canMoveDown.call @
-
   _canMoveLeft = ->
     @active_flg.left and @width > RADIUS
 
