@@ -11,40 +11,37 @@ KeyMotion = require('./model/key_motion');
 TimeKeeper = require('./model/time_keeper');
 
 $(function() {
+  var player;
   Field.draw();
-  globalObject.player = new Player();
-  globalObject.player.draw();
-  return new TimeKeeper().watch();
-});
-
-$(document).on('keydown', 'body', function(e) {
-  var keyMotion;
-  keyMotion = new KeyMotion(e.keyCode);
-  if (keyMotion.pushedArrowKey()) {
-    return globalObject.player.move(keyMotion.direction);
-  }
-});
-
-$(document).on('keyup', 'body', function(e) {
-  var keyMotion;
-  keyMotion = new KeyMotion(e.keyCode);
-  if (keyMotion.pushedArrowKey()) {
-    return globalObject.player.stop(keyMotion.direction);
-  }
-});
-
-$(document).on('keydown', 'body', function(e) {
-  var keyMotion;
-  keyMotion = new KeyMotion(e.keyCode);
-  if (keyMotion.pushedSpaceKey()) {
-    return globalObject.player.shot();
-  }
-});
-
-$(document).on('keyup', 'body', function(e) {
-  var keyMotion;
-  keyMotion = new KeyMotion(e.keyCode);
-  if (keyMotion.pushedSpaceKey()) {
-    return globalObject.player.stopShotting();
-  }
+  player = new Player();
+  player.draw();
+  new TimeKeeper(player).watch();
+  $(document).on('keydown', 'body', function(e) {
+    var keyMotion;
+    keyMotion = new KeyMotion(e.keyCode);
+    if (keyMotion.pushedArrowKey()) {
+      return player.move(keyMotion.direction);
+    }
+  });
+  $(document).on('keyup', 'body', function(e) {
+    var keyMotion;
+    keyMotion = new KeyMotion(e.keyCode);
+    if (keyMotion.pushedArrowKey()) {
+      return player.stop(keyMotion.direction);
+    }
+  });
+  $(document).on('keydown', 'body', function(e) {
+    var keyMotion;
+    keyMotion = new KeyMotion(e.keyCode);
+    if (keyMotion.pushedSpaceKey()) {
+      return player.shot();
+    }
+  });
+  return $(document).on('keyup', 'body', function(e) {
+    var keyMotion;
+    keyMotion = new KeyMotion(e.keyCode);
+    if (keyMotion.pushedSpaceKey()) {
+      return player.stopShotting();
+    }
+  });
 });

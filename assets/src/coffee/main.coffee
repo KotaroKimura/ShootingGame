@@ -9,26 +9,26 @@ TimeKeeper = require './model/time_keeper'
 
 $ ->
   Field.draw()
-  globalObject.player = new Player()
-  globalObject.player.draw()
-  new TimeKeeper().watch()
+  player = new Player()
+  player.draw()
+  new TimeKeeper(player).watch()
 
-$(document).on 'keydown', 'body', (e) ->
-  keyMotion = new KeyMotion e.keyCode
-  if keyMotion.pushedArrowKey()
-    globalObject.player.move keyMotion.direction
+  $(document).on 'keydown', 'body', (e) ->
+    keyMotion = new KeyMotion e.keyCode
+    if keyMotion.pushedArrowKey()
+      player.move keyMotion.direction
 
-$(document).on 'keyup', 'body', (e) ->
-  keyMotion = new KeyMotion e.keyCode
-  if keyMotion.pushedArrowKey()
-    globalObject.player.stop keyMotion.direction
+  $(document).on 'keyup', 'body', (e) ->
+    keyMotion = new KeyMotion e.keyCode
+    if keyMotion.pushedArrowKey()
+      player.stop keyMotion.direction
 
-$(document).on 'keydown', 'body', (e) ->
-  keyMotion = new KeyMotion e.keyCode
-  if keyMotion.pushedSpaceKey()
-    globalObject.player.shot()
+  $(document).on 'keydown', 'body', (e) ->
+    keyMotion = new KeyMotion e.keyCode
+    if keyMotion.pushedSpaceKey()
+      player.shot()
 
-$(document).on 'keyup', 'body', (e) ->
-  keyMotion = new KeyMotion e.keyCode
-  if keyMotion.pushedSpaceKey()
-    globalObject.player.stopShotting()
+  $(document).on 'keyup', 'body', (e) ->
+    keyMotion = new KeyMotion e.keyCode
+    if keyMotion.pushedSpaceKey()
+      player.stopShotting()

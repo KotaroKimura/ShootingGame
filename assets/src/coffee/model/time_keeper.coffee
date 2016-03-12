@@ -2,15 +2,14 @@
 globalObject = require '../global_object'
 
 module.exports = class TimeKeeper
-  constructor: ->
+  constructor: (@player) ->
     @times = 0
 
   watch: ->
     setTimeout (timeKeeper) ->
       globalObject.canvas.clearCanvas()
-      globalObject.player.draw()
-      globalObject.player.drawBullets(timeKeeper.times)
-      globalObject.player.magazine.logBullets()
+      timeKeeper.player.draw()
+      timeKeeper.player.drawBullets(timeKeeper.times)
       timeKeeper.times++
       timeKeeper.watch()
     , 20, @
