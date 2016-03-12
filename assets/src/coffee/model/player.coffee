@@ -24,10 +24,10 @@ module.exports = class Player extends Actor
 
   # override
   calculateDistanceEachActor: ->
-    @moveLeft  DISTANCE if _canMoveLeft.call @
-    @moveRight DISTANCE if _canMoveRight.call @
-    @moveUp    DISTANCE if _canMoveUp.call @
-    @moveDwon  DISTANCE if _canMoveDown.call @
+    @left  DISTANCE if _canMoveLeft.call @
+    @right DISTANCE if _canMoveRight.call @
+    @up    DISTANCE if _canMoveUp.call @
+    @down  DISTANCE if _canMoveDown.call @
 
   ### プライベートメソッド群 ###
   _canMoveLeft = ->

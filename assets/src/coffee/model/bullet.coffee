@@ -17,4 +17,4 @@ module.exports = class Bullet extends Actor
 
   # override
   calculateDistanceEachActor: ->
-    if @active_flg.right is true then @moveRight DISTANCE else @move(DIRECTION)
+    if @active_flg.right is true then @right DISTANCE else @move(DIRECTION)

@@ -21,16 +21,16 @@ module.exports = class Actor
     @width  = play_width
     @height = play_height
 
-  moveLeft: (distance) ->
+  left: (distance) ->
     @distance_width = -distance
 
-  moveRight: (distance) ->
+  right: (distance) ->
     @distance_width = distance
 
-  moveUp: (distance) ->
+  up: (distance) ->
     @distance_height = -distance
 
-  moveDwon: (distance) ->
+  down: (distance) ->
     @distance_height = distance
 
   resetDistance: ->
