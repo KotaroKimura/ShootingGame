@@ -17,6 +17,7 @@ module.exports = class Bullet extends Actor
 
   # override
   decideBehavior: ->
+    @resetDistance()
     # 画面に表示されていれば、X座標をプラス15。
     # 画面に表示されていなければ、表示。
     if @active_flg.right is true then @distance_width = DISTANCE else @move(DIRECTION)

@@ -20,6 +20,10 @@ module.exports = class Actor
     @width  = play_width
     @height = play_height
 
+  resetDistance: ->
+    @distance_width  = 0
+    @distance_height = 0
+
   decideBehavior: ->
     @width += @distance_width
     @height += @distance_height

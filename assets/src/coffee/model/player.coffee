@@ -24,7 +24,7 @@ module.exports = class Player extends Actor
 
   # override
   decideBehavior: ->
-    _resetDistance.call @
+    @resetDistance()
     _calculateDistance.call @
     super
 
@@ -34,10 +34,6 @@ module.exports = class Player extends Actor
     @distance_width  =  DISTANCE if _canMoveRight.call @
     @distance_height = -DISTANCE if _canMoveUp.call @
     @distance_height =  DISTANCE if _canMoveDown.call @
-
-  _resetDistance = ->
-    @distance_width  = 0 unless @active_flg.left and @active_flg.right
-    @distance_height = 0 unless @active_flg.up and @active_flg.down
 
   _canMoveLeft = ->
     @active_flg.left and @width > RADIUS
