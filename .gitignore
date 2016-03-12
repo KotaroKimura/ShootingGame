@@ -2,7 +2,8 @@
 package.json
 
 # folders
-vender/
+vender/assets/spec/
+vender/assets/view/*.js
 node_modules/
 assets/build/
 assets/src/js/
