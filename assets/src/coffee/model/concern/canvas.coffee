@@ -6,7 +6,7 @@ class Mixin
 module.exports = class Canvas extends Mixin
   CANVAS = $('canvas#field')
 
-  clear: ->
+  clearField: ->
     CANVAS.clearCanvas()
 
   drawField: (width, height) ->
