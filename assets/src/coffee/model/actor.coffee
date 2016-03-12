@@ -25,7 +25,7 @@ module.exports = class Actor
     @distance_height = 0
 
   decideBehavior: ->
-    @width += @distance_width
+    @width  += @distance_width
     @height += @distance_height
 
   draw: (color, radius) ->

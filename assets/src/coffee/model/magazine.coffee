@@ -40,7 +40,7 @@ module.exports = class Magazine
     bullet for bullet in @list when bullet.active_flg.right isnt true
 
   _canShotBullet = (loop_times, shot_flg) ->
-    if (shot_flg is true) and (loop_times % 10 is 0) then true else false
+    shot_flg is true and loop_times % 10 is 0
 
   _shotNewBullet = (width, height) ->
     bullet = new Bullet width, height
@@ -48,5 +48,5 @@ module.exports = class Magazine
     @list.push bullet
 
   _shotReloadedBullet = (bullet, width, height) ->
-    bullet.relocate width, height
+    bullet.relocate width + 20, height
     bullet.draw()
