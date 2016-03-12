@@ -19,16 +19,8 @@ $ ->
 
   $(document).on 'keydown', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    keyMotion.decidePlayerMotion player, keyMotion.type.down
+    keyMotion.requestToPlayer player, keyMotion.type.down
 
   $(document).on 'keyup', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    keyMotion.decidePlayerMotion player, keyMotion.type.up
-
-  $(document).on 'keydown', 'body', (e) ->
-    keyMotion = new KeyMotion e.keyCode
-    keyMotion.decideBulletMotion player, keyMotion.type.down
-
-  $(document).on 'keyup', 'body', (e) ->
-    keyMotion = new KeyMotion e.keyCode
-    keyMotion.decideBulletMotion player, keyMotion.type.up
+    keyMotion.requestToPlayer player, keyMotion.type.up

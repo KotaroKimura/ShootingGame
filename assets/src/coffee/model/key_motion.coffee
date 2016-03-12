@@ -11,12 +11,18 @@ module.exports = class KeyMotion
       down: 'keydown'
     @direction = ARROW_KEY[@code]
 
-  decidePlayerMotion: (player, key_event) ->
+  ### パブリックメソッド群 ###
+  requestToPlayer: (player, key_event) ->
+    _decidePlayerMotion.call @, player, key_event
+    _decideShottingMotion.call @, player, key_event
+
+  ### プライベートメソッド群 ###
+  _decidePlayerMotion = (player, key_event) ->
     return unless _pushedArrowKey.call @
     return player.stop(@direction) if key_event is @type.up
     player.move(@direction) if key_event is @type.down
 
-  decideBulletMotion: (player, key_event) ->
+  _decideShottingMotion = (player, key_event) ->
     return unless _pushedSpaceKey.call @
     return player.stopShotting() if key_event is @type.up
     player.shot() if key_event is @type.down
