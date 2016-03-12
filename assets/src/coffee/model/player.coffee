@@ -5,13 +5,8 @@ globalObject = require '../global_object'
 Actor = require './actor'
 
 module.exports = class Player extends Actor
-  RADIUS = 10
-  # 加速率
-  # 「停止」から「最高速」までの振り幅を示す
-  ACCELERATION = 0.9
-  # 摩擦
-  # 摩擦がかかる < 1(摩擦0) < 加速する
-  FRICTION = 0.91
+  RADIUS   = 10
+  DISTANCE = 10
   constructor: ->
     @shot_flg = false
     super 20, (globalObject.field.height - RADIUS) / 2, 0, 0
@@ -29,17 +24,29 @@ module.exports = class Player extends Actor
 
   # override
   decideBehavior: ->
-    _calculateAcceleration.call @
-    _calculateFriction.call @
+    _resetDistance.call @
+    _calculateDistance.call @
     super
 
   ### プライベートメソッド群 ###
-  _calculateAcceleration = ->
-    @distance_width -= ACCELERATION if @active_flg.left
-    @distance_width += ACCELERATION if @active_flg.right
-    @distance_height -= ACCELERATION if @active_flg.up
-    @distance_height += ACCELERATION if @active_flg.down
+  _calculateDistance = ->
+    @distance_width  = -DISTANCE if _canMoveLeft.call @
+    @distance_width  =  DISTANCE if _canMoveRight.call @
+    @distance_height = -DISTANCE if _canMoveUp.call @
+    @distance_height =  DISTANCE if _canMoveDown.call @
 
-  _calculateFriction = ->
-    @distance_width = @distance_width * FRICTION
-    @distance_height = @distance_height * FRICTION
+  _resetDistance = ->
+    @distance_width  = 0 unless @active_flg.left and @active_flg.right
+    @distance_height = 0 unless @active_flg.up and @active_flg.down
+
+  _canMoveLeft = ->
+    @active_flg.left and @width > RADIUS
+
+  _canMoveRight = ->
+    @active_flg.right and @width < globalObject.field.width - RADIUS
+
+  _canMoveUp = ->
+    @active_flg.up and @height > RADIUS
+
+  _canMoveDown = ->
+    @active_flg.down and @height < globalObject.field.height - RADIUS
