@@ -12,4 +12,4 @@ module.exports = class TimeKeeper
       timeKeeper.player.drawBullets(timeKeeper.times)
       timeKeeper.times++
       timeKeeper.watch()
-    , 20, @
+    , 15, @

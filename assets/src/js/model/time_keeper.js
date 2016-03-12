@@ -15,7 +15,7 @@ module.exports = TimeKeeper = (function() {
       timeKeeper.player.drawBullets(timeKeeper.times);
       timeKeeper.times++;
       return timeKeeper.watch();
-    }, 20, this);
+    }, 15, this);
   };
 
   return TimeKeeper;

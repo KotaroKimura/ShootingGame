@@ -15,20 +15,16 @@ $ ->
 
   $(document).on 'keydown', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    if keyMotion.pushedArrowKey()
-      player.move keyMotion.direction
+    keyMotion.decidePlayerMotion player, keyMotion.type.down
 
   $(document).on 'keyup', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    if keyMotion.pushedArrowKey()
-      player.stop keyMotion.direction
+    keyMotion.decidePlayerMotion player, keyMotion.type.up
 
   $(document).on 'keydown', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    if keyMotion.pushedSpaceKey()
-      player.shot()
+    keyMotion.decideBulletMotion player, keyMotion.type.down
 
   $(document).on 'keyup', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    if keyMotion.pushedSpaceKey()
-      player.stopShotting()
+    keyMotion.decideBulletMotion player, keyMotion.type.up

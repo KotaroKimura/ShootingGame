@@ -19,29 +19,21 @@ $(function() {
   $(document).on('keydown', 'body', function(e) {
     var keyMotion;
     keyMotion = new KeyMotion(e.keyCode);
-    if (keyMotion.pushedArrowKey()) {
-      return player.move(keyMotion.direction);
-    }
+    return keyMotion.decidePlayerMotion(player, keyMotion.type.down);
   });
   $(document).on('keyup', 'body', function(e) {
     var keyMotion;
     keyMotion = new KeyMotion(e.keyCode);
-    if (keyMotion.pushedArrowKey()) {
-      return player.stop(keyMotion.direction);
-    }
+    return keyMotion.decidePlayerMotion(player, keyMotion.type.up);
   });
   $(document).on('keydown', 'body', function(e) {
     var keyMotion;
     keyMotion = new KeyMotion(e.keyCode);
-    if (keyMotion.pushedSpaceKey()) {
-      return player.shot();
-    }
+    return keyMotion.decideBulletMotion(player, keyMotion.type.down);
   });
   return $(document).on('keyup', 'body', function(e) {
     var keyMotion;
     keyMotion = new KeyMotion(e.keyCode);
-    if (keyMotion.pushedSpaceKey()) {
-      return player.stopShotting();
-    }
+    return keyMotion.decideBulletMotion(player, keyMotion.type.up);
   });
 });
