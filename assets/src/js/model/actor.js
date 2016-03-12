@@ -1,15 +1,14 @@
-var Actor, globalObject;
+var Actor, Canvas;
 
-globalObject = require('../global_object');
+Canvas = require('./concern/canvas');
 
 module.exports = Actor = (function() {
-  var _drawArc;
-
   function Actor(width, height, distance_width, distance_height) {
     this.width = width;
     this.height = height;
     this.distance_width = distance_width;
     this.distance_height = distance_height;
+    Canvas.prototype.augment(this);
     this.active_flg = {
       left: false,
       up: false,
@@ -38,16 +37,7 @@ module.exports = Actor = (function() {
 
   Actor.prototype.draw = function(color, radius) {
     this.decideBehavior();
-    return _drawArc.call(this, color, radius);
-  };
-
-  _drawArc = function(color, radius) {
-    return globalObject.canvas.drawArc({
-      fillStyle: color,
-      x: this.width,
-      y: this.height,
-      radius: radius
-    });
+    return this.drawArc(color, radius);
   };
 
   return Actor;

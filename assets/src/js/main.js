@@ -18,7 +18,7 @@ TimeKeeper = require('./model/time_keeper');
 
 $(function() {
   var player;
-  Field.draw();
+  new Field().draw();
   player = new Player();
   player.draw();
   new TimeKeeper(player).watch();

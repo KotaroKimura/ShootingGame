@@ -1,8 +1,9 @@
-# グローバル変数をロード
-globalObject = require '../global_object'
+# キャンバスに対して操作を行うモジュールをロード
+Canvas = require './concern/canvas'
 
 module.exports = class Actor
   constructor: (@width, @height, @distance_width, @distance_height) ->
+    Canvas::augment @
     @active_flg =
       left : false
       up   : false
@@ -25,14 +26,4 @@ module.exports = class Actor
 
   draw: (color, radius) ->
     @decideBehavior()
-    _drawArc.call @, color, radius
-
-  _drawArc = (color, radius) ->
-    globalObject.canvas.drawArc(
-      {
-        fillStyle: color,
-        x: @width,
-        y: @height,
-        radius: radius
-      }
-    )
+    @drawArc color, radius

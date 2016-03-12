@@ -5,3 +5,4 @@ package.json
 vender/
 node_modules/
 assets/build/
+assets/src/js/

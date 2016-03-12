@@ -1,7 +1,12 @@
 # グローバル変数をロード
 globalObject = require '../global_object'
 
+# キャンバスに対して操作を行うモジュールをロード
+Canvas = require './concern/canvas'
+
 module.exports = class Field
-  @draw: ->
-    globalObject.canvas[0].width = globalObject.field.width
-    globalObject.canvas[0].height = globalObject.field.height
+  constructor: ->
+    Canvas::augment @
+
+  draw: ->
+    @drawField globalObject.field.width, globalObject.field.height

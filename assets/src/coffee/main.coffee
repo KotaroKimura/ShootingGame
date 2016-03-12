@@ -12,7 +12,7 @@ do ->
   globalObject.magazine = new Magazine()
 
 $ ->
-  Field.draw()
+  new Field().draw()
   player = new Player()
   player.draw()
   new TimeKeeper(player).watch()

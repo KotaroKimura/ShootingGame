@@ -1,13 +1,16 @@
-var Field, globalObject;
+var Canvas, Field, globalObject;
 
 globalObject = require('../global_object');
 
-module.exports = Field = (function() {
-  function Field() {}
+Canvas = require('./concern/canvas');
 
-  Field.draw = function() {
-    globalObject.canvas[0].width = globalObject.field.width;
-    return globalObject.canvas[0].height = globalObject.field.height;
+module.exports = Field = (function() {
+  function Field() {
+    Canvas.prototype.augment(this);
+  }
+
+  Field.prototype.draw = function() {
+    return this.drawField(globalObject.field.width, globalObject.field.height);
   };
 
   return Field;
