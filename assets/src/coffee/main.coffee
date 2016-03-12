@@ -2,10 +2,14 @@
 globalObject = require './global_object'
 
 # モデルクラスをロード
-Field = require './model/field'
-Player = require './model/player'
-KeyMotion = require './model/key_motion'
+Field      = require './model/field'
+Player     = require './model/player'
+Magazine   = require './model/magazine'
+KeyMotion  = require './model/key_motion'
 TimeKeeper = require './model/time_keeper'
+
+do ->
+  globalObject.magazine = new Magazine()
 
 $ ->
   Field.draw()

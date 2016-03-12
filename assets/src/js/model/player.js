@@ -1,4 +1,4 @@
-var Actor, Bullet, Magazine, Player, globalObject,
+var Actor, Bullet, Player, globalObject,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -7,8 +7,6 @@ globalObject = require('../global_object');
 Actor = require('./actor');
 
 Bullet = require('./bullet');
-
-Magazine = require('./magazine');
 
 module.exports = Player = (function(superClass) {
   var ACCELERATION, FRICTION, RADIUS, _calculateAcceleration, _calculateFriction, _canShotBullet, _shotBullet, _shotNewBullet, _shotReloadedBullet;
@@ -22,7 +20,6 @@ module.exports = Player = (function(superClass) {
   FRICTION = 0.91;
 
   function Player() {
-    this.magazine = new Magazine();
     this.shot_flg = false;
     this.active_flg = {
       left: false,
@@ -63,7 +60,7 @@ module.exports = Player = (function(superClass) {
     if (_canShotBullet.call(this, loop_times)) {
       _shotBullet.call(this);
     }
-    return this.magazine.drawActiveBullets();
+    return globalObject.magazine.drawActiveBullets();
   };
 
   _canShotBullet = function(loop_times) {
@@ -76,7 +73,7 @@ module.exports = Player = (function(superClass) {
 
   _shotBullet = function() {
     var reloaded_bullets;
-    reloaded_bullets = this.magazine.getReloadedBullets();
+    reloaded_bullets = globalObject.magazine.getReloadedBullets();
     if (reloaded_bullets.length === 0) {
       return _shotNewBullet.call(this);
     } else {
@@ -88,7 +85,7 @@ module.exports = Player = (function(superClass) {
     var bullet;
     bullet = new Bullet(this.width, this.height);
     bullet.shot();
-    return this.magazine.list.push(bullet);
+    return globalObject.magazine.list.push(bullet);
   };
 
   _shotReloadedBullet = function(bullet) {

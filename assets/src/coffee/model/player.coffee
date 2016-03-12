@@ -4,7 +4,6 @@ globalObject = require '../global_object'
 # モデルクラスをロード
 Actor = require './actor'
 Bullet = require './bullet'
-Magazine = require './magazine'
 
 module.exports = class Player extends Actor
   RADIUS = 10
@@ -15,7 +14,6 @@ module.exports = class Player extends Actor
   # 摩擦がかかる < 1(摩擦0) < 加速する
   FRICTION = 0.91
   constructor: ->
-    @magazine   = new Magazine() #bulletクラスのインスタンスを格納するクラス
     @shot_flg   = false
     @active_flg =
       left : false
@@ -48,13 +46,13 @@ module.exports = class Player extends Actor
 
   drawBullets: (loop_times) ->
     _shotBullet.call @ if _canShotBullet.call @, loop_times
-    @magazine.drawActiveBullets()
+    globalObject.magazine.drawActiveBullets()
 
   _canShotBullet = (loop_times) ->
     if (@shot_flg is true) and (loop_times % 10 is 0) then true else false # 銃弾を打つ間隔を広くする
 
   _shotBullet = ->
-    reloaded_bullets = @magazine.getReloadedBullets()
+    reloaded_bullets = globalObject.magazine.getReloadedBullets()
     if reloaded_bullets.length is 0
       _shotNewBullet.call @
     else
@@ -63,7 +61,7 @@ module.exports = class Player extends Actor
   _shotNewBullet = ->
     bullet = new Bullet @width, @height
     bullet.shot()
-    @magazine.list.push bullet
+    globalObject.magazine.list.push bullet
 
   _shotReloadedBullet = (bullet) ->
     bullet.relocate @width, @height
