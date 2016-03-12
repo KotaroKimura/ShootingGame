@@ -11,7 +11,7 @@ module.exports = class TimeKeeper
     setTimeout (self) ->
       globalObject.canvas.clearCanvas()
       self.monitored_object.player.draw()
-      self.monitored_object.player.drawBullets(self.times)
+      globalObject.magazine.drawBullets self.times, self.monitored_object.player
       self.times++
       self.watch()
     , 15, @

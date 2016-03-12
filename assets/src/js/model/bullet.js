@@ -5,40 +5,33 @@ var Actor, Bullet,
 Actor = require('./actor');
 
 module.exports = Bullet = (function(superClass) {
-  var RADIUS;
+  var DISTANCE, RADIUS;
 
   extend(Bullet, superClass);
 
   RADIUS = 5;
 
+  DISTANCE = 'right';
+
   function Bullet(play_width, play_height) {
-    this.active_flg = false;
     Bullet.__super__.constructor.call(this, play_width + 15, play_height, 0, 0);
   }
 
   Bullet.prototype.clear = function() {
-    this.width = 0;
-    this.height = 0;
-    return this.active_flg = false;
-  };
-
-  Bullet.prototype.shot = function() {
-    this.active_flg = true;
-    return this.draw();
-  };
-
-  Bullet.prototype.relocate = function(play_width, play_height) {
-    this.width = play_width;
-    return this.height = play_height;
-  };
-
-  Bullet.prototype.move = function() {
-    this.distance_width = 15;
-    return this.draw();
+    return this.stop(DISTANCE);
   };
 
   Bullet.prototype.draw = function() {
     return Bullet.__super__.draw.call(this, '#87CEEB', RADIUS);
+  };
+
+  Bullet.prototype.decideBehavior = function() {
+    if (this.active_flg.right === true) {
+      this.distance_width = 15;
+    } else {
+      this.move(DISTANCE);
+    }
+    return Bullet.__super__.decideBehavior.apply(this, arguments);
   };
 
   return Bullet;
