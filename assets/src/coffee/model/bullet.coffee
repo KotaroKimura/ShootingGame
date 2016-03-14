@@ -17,5 +17,4 @@ module.exports = class Bullet extends Actor
 
   # override
   calculateDistance: ->
-    console.log @canMoveTo
     if @canMoveTo.right then @right DISTANCE else @move DIRECTION
