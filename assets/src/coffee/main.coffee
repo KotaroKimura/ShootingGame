@@ -14,13 +14,13 @@ do ->
 $ ->
   new Field().draw()
   player = new Player()
-  player.draw()
+  player.show()
   new TimeKeeper(player).watch()
 
   $(document).on 'keydown', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    keyMotion.requestToPlayer player, keyMotion.type.down
+    keyMotion.requestTo player, keyMotion.type.down
 
   $(document).on 'keyup', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode
-    keyMotion.requestToPlayer player, keyMotion.type.up
+    keyMotion.requestTo player, keyMotion.type.up

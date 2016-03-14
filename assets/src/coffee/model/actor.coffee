@@ -4,7 +4,7 @@ Canvas = require './concern/canvas'
 module.exports = class Actor
   constructor: (@width, @height, @distance_width, @distance_height) ->
     Canvas::augment @
-    @active_flg =
+    @canMoveTo =
       left : false
       up   : false
       right: false
@@ -12,10 +12,10 @@ module.exports = class Actor
 
   ### パブリックメソッド群 ###
   move: (direction) ->
-    @active_flg[direction] = true
+    @canMoveTo[direction] = true
 
   stop: (direction) ->
-    @active_flg[direction] = false
+    @canMoveTo[direction] = false
 
   relocate: (play_width, play_height) ->
     @width  = play_width
@@ -39,16 +39,16 @@ module.exports = class Actor
 
   decideBehavior: ->
     _resetDistance.call @
-    @calculateDistanceEachActor()
+    @calculateDistance()
     @width  += @distance_width
     @height += @distance_height
 
   # override用メソッド
-  calculateDistanceEachActor: ->
+  calculateDistance: ->
     true
 
   # override用メソッド
-  draw: (color, radius) ->
+  show: (color, radius) ->
     @decideBehavior()
     @drawArc color, radius
 

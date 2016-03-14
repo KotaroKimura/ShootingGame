@@ -14,7 +14,7 @@ module.exports = class TimeKeeper
   watch: ->
     setTimeout (self) ->
       self.clearField()
-      self.monitored_object.player.draw()
+      self.monitored_object.player.show()
       globalObject.magazine.drawBullets self.times, self.monitored_object.player
       self.times++
       self.watch()

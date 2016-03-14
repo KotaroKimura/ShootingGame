@@ -14,39 +14,39 @@ module.exports = class Magazine
 
   ### パブリックメソッド群 ###
   drawBullets: (loop_times, actor) ->
-    _drawshotedBullet.call @, loop_times, actor
+    _drawshotBullet.call @, loop_times, actor
     _drawActiveBullets.call @
 
   ### プライベートメソッド群 ###
-  _drawshotedBullet = (loop_times, actor) ->
+  _drawshotBullet = (loop_times, actor) ->
     width            = actor.width
     height           = actor.height
     reloaded_bullets = _getReloadedBullets.call @
-    return unless _canShotBullet.call @, loop_times, actor.shot_flg
+    return unless _canShootBullet.call @, loop_times, actor.shootable
 
     if reloaded_bullets.length is 0
-      _shotNewBullet.call @, width, height
+      _shootNewBullet.call @, width, height
     else
-      _shotReloadedBullet.call @, reloaded_bullets[0], width, height
+      _shootReloadedBullet.call @, reloaded_bullets[0], width, height
 
   _drawActiveBullets = ->
     for bullet in _getActiveBullets.call @
-      if globalObject.field.width > bullet.width then bullet.draw() else bullet.clear()
+      if globalObject.field.width > bullet.width then bullet.show() else bullet.hide()
 
   _getActiveBullets = ->
-    bullet for bullet in @list when bullet.active_flg.right is true
+    bullet for bullet in @list when bullet.canMoveTo.right
 
   _getReloadedBullets = ->
-    bullet for bullet in @list when bullet.active_flg.right isnt true
+    bullet for bullet in @list when not bullet.canMoveTo.right
 
-  _canShotBullet = (loop_times, shot_flg) ->
-    shot_flg is true and loop_times % 10 is 0
+  _canShootBullet = (loop_times, shootable) ->
+    shootable is true and loop_times % 10 is 0
 
-  _shotNewBullet = (width, height) ->
+  _shootNewBullet = (width, height) ->
     bullet = new Bullet width, height
-    bullet.draw()
+    bullet.show()
     @list.push bullet
 
-  _shotReloadedBullet = (bullet, width, height) ->
+  _shootReloadedBullet = (bullet, width, height) ->
     bullet.relocate width + 20, height
-    bullet.draw()
+    bullet.show()

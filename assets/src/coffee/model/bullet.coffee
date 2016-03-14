@@ -8,13 +8,14 @@ module.exports = class Bullet extends Actor
   constructor: (play_width, play_height) ->
     super play_width + 20, play_height, 0, 0
 
-  clear: ->
-    @stop(DIRECTION)
+  hide: ->
+    @stop DIRECTION
 
   # override
-  draw: ->
+  show: ->
     super '#87CEEB', RADIUS
 
   # override
-  calculateDistanceEachActor: ->
-    if @active_flg.right is true then @right DISTANCE else @move(DIRECTION)
+  calculateDistance: ->
+    console.log @canMoveTo
+    if @canMoveTo.right then @right DISTANCE else @move DIRECTION

@@ -12,20 +12,20 @@ module.exports = class KeyMotion
     @direction = ARROW_KEY[@code]
 
   ### パブリックメソッド群 ###
-  requestToPlayer: (player, key_event) ->
-    _playerAction.call @, player, key_event
-    _shottingAction.call @, player, key_event
+  requestTo: (player, key_event) ->
+    _requestToMove.call @, player, key_event
+    _requestToShoot.call @, player, key_event
 
   ### プライベートメソッド群 ###
-  _playerAction = (player, key_event) ->
+  _requestToMove = (player, key_event) ->
     return unless _pushedArrowKey.call @
-    return player.stop(@direction) if key_event is @type.up
-    player.move(@direction) if key_event is @type.down
+    return player.stop @direction if key_event is @type.up
+    player.move @direction if key_event is @type.down
 
-  _shottingAction = (player, key_event) ->
+  _requestToShoot = (player, key_event) ->
     return unless _pushedSpaceKey.call @
-    return player.stopShotting() if key_event is @type.up
-    player.shot() if key_event is @type.down
+    return player.stopShooting() if key_event is @type.up
+    player.shoot() if key_event is @type.down
 
   _pushedArrowKey = ->
     if @direction is undefined then false else true
