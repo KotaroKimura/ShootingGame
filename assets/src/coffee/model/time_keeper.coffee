@@ -5,15 +5,17 @@ globalObject = require '../global_object'
 Canvas = require './concern/canvas'
 
 module.exports = class TimeKeeper
-  constructor: (player) ->
+  constructor: (player, enemy) ->
     Canvas::augment @
-    @times  = 0
+    @times = 0
     @monitored_object =
       player: player
+      enemy:  enemy
 
   watch: ->
     setTimeout (self) ->
       self.clearField()
+      self.monitored_object.enemy.show()
       self.monitored_object.player.show()
       globalObject.magazine.drawBullets self.times, self.monitored_object.player
       self.times++
