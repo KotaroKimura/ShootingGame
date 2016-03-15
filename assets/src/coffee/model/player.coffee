@@ -1,5 +1,5 @@
 # グローバル変数をロード
-globalObject = require '../global_object'
+globalObject = require './config/global'
 
 # モデルクラスをロード
 Actor = require './actor'

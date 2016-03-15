@@ -18,13 +18,18 @@ gulp.task 'compile concern', ->
     .pipe coffee({ bare: true })
     .pipe gulp.dest 'assets/src/js/model/concern'
 
+gulp.task 'compile config', ->
+  gulp.src 'assets/src/coffee/model/config/*.coffee'
+    .pipe coffee({ bare: true })
+    .pipe gulp.dest 'assets/src/js/model/config'
+
 gulp.task 'webpack', ->
   gulp.src 'assets/src/js/main.js'
     .pipe webpack require './webpack.config.js'
     .pipe gulp.dest 'assets/build'
 
 gulp.task 'compile', ->
-  runSequence ['compile main', 'compile model', 'compile concern']
+  runSequence ['compile main', 'compile model', 'compile concern', 'compile config']
 
 gulp.task 'default', ->
-  runSequence 'compile'
+  runSequence ['compile', 'webpack']

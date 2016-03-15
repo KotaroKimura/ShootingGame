@@ -1,11 +1,11 @@
 # グローバル変数をロード
-globalObject = require './global_object'
+globalObject = require './model/config/global'
 
 # モデルクラスをロード
 Field      = require './model/field'
-Enemy      = require './model/enemy'
 Player     = require './model/player'
 Magazine   = require './model/magazine'
+EnemyBox   = require './model/enemy_box'
 KeyMotion  = require './model/key_motion'
 TimeKeeper = require './model/time_keeper'
 
@@ -14,11 +14,9 @@ do ->
 
 $ ->
   new Field().draw()
-  enemy  = new Enemy()
-  enemy.show()
   player = new Player()
   player.show()
-  new TimeKeeper(player, enemy).watch()
+  new TimeKeeper(player, new EnemyBox()).watch()
 
   $(document).on 'keydown', 'body', (e) ->
     keyMotion = new KeyMotion e.keyCode

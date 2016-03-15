@@ -1,16 +1,17 @@
 # グローバル変数をロード
-globalObject = require '../global_object'
+globalObject = require './config/global'
 
 # 親クラスをロード
 Actor = require './actor'
 
 module.exports = class Enemy extends Actor
-  RADIUS   = 10
-  DISTANCE = 10
-  constructor: ->
+  RADIUS    = 10
+  DISTANCE  = 10
+  DIRECTION = 'left'
+  constructor: (@height) ->
     super(
       globalObject.field.width - RADIUS,
-      (globalObject.field.height - RADIUS) / 2,
+      @height / 2,
       0,
       0
     )
