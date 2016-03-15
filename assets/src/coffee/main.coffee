@@ -1,5 +1,5 @@
 # グローバル変数をロード
-globalObject = require './model/config/global'
+globalObject = require './config/global'
 
 # モデルクラスをロード
 Field      = require './model/field'

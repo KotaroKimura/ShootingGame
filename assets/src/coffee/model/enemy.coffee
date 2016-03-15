@@ -1,5 +1,5 @@
 # グローバル変数をロード
-globalObject = require './config/global'
+globalObject = require '../config/global'
 
 # 親クラスをロード
 Actor = require './actor'

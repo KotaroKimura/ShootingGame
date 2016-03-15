@@ -19,9 +19,9 @@ gulp.task 'compile concern', ->
     .pipe gulp.dest 'assets/src/js/model/concern'
 
 gulp.task 'compile config', ->
-  gulp.src 'assets/src/coffee/model/config/*.coffee'
+  gulp.src 'assets/src/coffee/config/*.coffee'
     .pipe coffee({ bare: true })
-    .pipe gulp.dest 'assets/src/js/model/config'
+    .pipe gulp.dest 'assets/src/js/config'
 
 gulp.task 'webpack', ->
   gulp.src 'assets/src/js/main.js'
