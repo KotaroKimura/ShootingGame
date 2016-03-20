@@ -5,30 +5,32 @@ globalObject = require '../config/global'
 Actor = require './actor'
 
 module.exports = class Enemy extends Actor
-  RADIUS    = 10
-  DISTANCE  = 10
   DIRECTION = 'left'
   constructor: (info_arg) ->
-    @setInstance info_arg
+    _setInstance.call @, info_arg
     super @width, @height, 0, 0
 
-  setInstance: (info_arg) ->
-    @type   = info_arg.type
-    @color  = info_arg.color
-    @width  = info_arg.width
-    @height = info_arg.height
-
+  ### パブリックメソッド群 ###
   hide: ->
     @stop DIRECTION
 
   # override
   show: ->
-    super @color, RADIUS
+    super @color, @radius
 
   reShow: (info_arg) ->
-    @setInstance info_arg
+    _setInstance.call @, info_arg
     @show()
 
   # override
   calculateDistance: ->
-    if @canMoveTo.left then @left DISTANCE else @move DIRECTION
+    if @canMoveTo.left then @left @distance else @move DIRECTION
+
+  ### プライベートメソッド群 ###
+  _setInstance = (info_arg) ->
+    @radius   = info_arg.radius
+    @distance = info_arg.distance
+    @type     = info_arg.type
+    @color    = info_arg.color
+    @width    = info_arg.width
+    @height   = info_arg.height
