@@ -32,4 +32,4 @@ gulp.task 'compile', ->
   runSequence ['compile main', 'compile model', 'compile concern', 'compile config']
 
 gulp.task 'default', ->
-  runSequence ['compile', 'webpack']
+  runSequence ['compile']

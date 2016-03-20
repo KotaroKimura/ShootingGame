@@ -1,5 +1,5 @@
-# グローバル変数をロード
-globalObject = require '../config/global'
+# 敵に関する情報を持ったオブジェクトをロード
+EnemyInfo = require '../config/enemy_info'
 
 # モデルクラスをロード
 Enemy = require './enemy'
@@ -13,6 +13,32 @@ module.exports = class EnemyBox
 
   ### パブリックメソッド群 ###
   showEnemies: (loopTimes) ->
-    console.log loopTimes
+    _drawNewEnemy.call @, loopTimes
+    _drawActiveEnemies.call @
 
   ### プライベートメソッド群 ###
+  _drawNewEnemy = (loopTimes) ->
+    for detail in _getAppearableEnemyDetails.call @, loopTimes
+      hideEnemies = _getHideEnemies.call @
+      if hideEnemies.length is 0
+        _birthNewEnemy.call @, detail
+      else
+        hideEnemies[0].reShow detail
+
+  _getAppearableEnemyDetails = (loopTimes) ->
+    data for popTime, data of EnemyInfo when loopTimes is +popTime
+
+  _getHideEnemies = ->
+    enemy for enemy in @box when not enemy.canMoveTo.left
+
+  _birthNewEnemy = (detail) ->
+    enemy = new Enemy detail
+    enemy.show()
+    @box.push enemy
+
+  _drawActiveEnemies = ->
+    for enemy in _getActiveEnemies.call @
+      if 0 < enemy.width then enemy.show() else enemy.hide()
+
+  _getActiveEnemies = ->
+    enemy for enemy in @box when enemy.canMoveTo.left
