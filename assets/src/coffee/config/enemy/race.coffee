@@ -1,0 +1,16 @@
+module.exports =
+  pawn: #ポーン種(標準種)
+    type: 'pawn'
+    radius: 10
+    distance: 5
+    color: '#696969'
+  rush: #ラッシュ種(突進種)
+    type: 'rush'
+    radius: 10
+    distance: 15
+    color: '#191970'
+  giant: #ジャイアント種(巨大種)
+    type: 'giant'
+    radius: 30
+    distance: 2
+    color: '#2F4F4F'

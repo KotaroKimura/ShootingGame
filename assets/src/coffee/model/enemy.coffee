@@ -28,9 +28,10 @@ module.exports = class Enemy extends Actor
 
   ### プライベートメソッド群 ###
   _setInstance = (info_arg) ->
-    @radius   = info_arg.radius
-    @distance = info_arg.distance
-    @type     = info_arg.type
-    @color    = info_arg.color
+    console.log info_arg
+    @radius   = info_arg.race.radius
+    @distance = info_arg.race.distance
+    @type     = info_arg.race.type
+    @color    = info_arg.race.color
     @width    = info_arg.width
     @height   = info_arg.height

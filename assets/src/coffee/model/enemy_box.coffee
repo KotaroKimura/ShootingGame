@@ -1,5 +1,5 @@
 # 敵に関する情報を持ったオブジェクトをロード
-EnemyInfo = require '../config/enemy_info'
+EnemyInfo = require '../config/enemy/main'
 
 # モデルクラスをロード
 Enemy = require './enemy'
