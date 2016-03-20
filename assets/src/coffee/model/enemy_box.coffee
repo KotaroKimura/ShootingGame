@@ -18,15 +18,16 @@ module.exports = class EnemyBox
 
   ### プライベートメソッド群 ###
   _drawNewEnemy = (loopTimes) ->
-    for detail in _getAppearableEnemyDetails.call @, loopTimes
-      hideEnemies = _getHideEnemies.call @
-      if hideEnemies.length is 0
-        _birthNewEnemy.call @, detail
-      else
-        hideEnemies[0].reShow detail
+    for details in _getAppearableEnemyDetails.call @, loopTimes
+      for detail in details
+        hideEnemies = _getHideEnemies.call @
+        if hideEnemies.length is 0
+          _birthNewEnemy.call @, detail
+        else
+          hideEnemies[0].reShow detail
 
   _getAppearableEnemyDetails = (loopTimes) ->
-    data for popTime, data of EnemyInfo when loopTimes is +popTime
+    details for popTime, details of EnemyInfo when loopTimes is +popTime
 
   _getHideEnemies = ->
     enemy for enemy in @box when not enemy.canMoveTo.left
