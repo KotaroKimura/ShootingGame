@@ -1,3 +1,6 @@
+# グローバル変数をロード
+globalObject = require '../global'
+
 # 敵の種族情報をロード
 Race = require './race'
 
@@ -6,17 +9,10 @@ module.exports =
     [
       {
         race  : Race.pawn
+        motion:
+          type  : 'straight'
+          stroke: undefined
         width : 1000
-        height: 100
-      },
-      {
-        race  : Race.rush
-        width : 1000
-        height: 200
-      },
-      {
-        race  : Race.giant
-        width : 1000
-        height: 300
+        height: (globalObject.field.height - Race.pawn.radius) / 2
       }
     ]

@@ -20,7 +20,7 @@ module.exports = class EnemyBox
   _drawNewEnemy = (loopTimes) ->
     for details in _getAppearableEnemyDetails.call @, loopTimes
       for detail in details
-        hideEnemies = _getHideEnemies.call @
+        hideEnemies = _getDeadEnemies.call @
         if hideEnemies.length is 0
           _birthNewEnemy.call @, detail
         else
@@ -29,8 +29,8 @@ module.exports = class EnemyBox
   _getAppearableEnemyDetails = (loopTimes) ->
     details for popTime, details of EnemyInfo when loopTimes is +popTime
 
-  _getHideEnemies = ->
-    enemy for enemy in @box when not enemy.canMoveTo.left
+  _getDeadEnemies = ->
+    enemy for enemy in @box when not enemy.isActive()
 
   _birthNewEnemy = (detail) ->
     enemy = new Enemy detail
@@ -39,7 +39,7 @@ module.exports = class EnemyBox
 
   _drawActiveEnemies = ->
     for enemy in _getActiveEnemies.call @
-      if 0 < enemy.width then enemy.show() else enemy.hide()
+      if 0 < enemy.width + enemy.radius then enemy.show() else enemy.die()
 
   _getActiveEnemies = ->
-    enemy for enemy in @box when enemy.canMoveTo.left
+    enemy for enemy in @box when enemy.isActive()

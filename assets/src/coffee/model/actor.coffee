@@ -52,6 +52,9 @@ module.exports = class Actor
     @decideBehavior()
     @drawArc color, radius
 
+  isActive: ->
+    if (state for direction, state of @canMoveTo when state is true).length is 0 then false else true
+
   ### プライベートメソッド群 ###
   _resetDistance = ->
     @distance_width  = 0
