@@ -2,7 +2,8 @@
 EnemyInfo = require '../config/enemy/main'
 
 # モデルクラスをロード
-Enemy = require './enemy'
+Enemy          = require './enemy'
+EnemyGenerator = require './enemy_generator'
 
 ### EnemyBoxクラス ###
 # Enemyクラスのオブジェクトを配列として格納し、その操作を行うクラス
@@ -27,7 +28,9 @@ module.exports = class EnemyBox
           hideEnemies[0].reShow detail
 
   _getAppearableEnemyDetails = (loopTimes) ->
-    details for popTime, details of EnemyInfo when loopTimes is +popTime
+    details = (details for popTime, details of EnemyInfo when loopTimes is +popTime)
+    details.push new EnemyGenerator(0.2).generateEenemy()
+    details
 
   _getDeadEnemies = ->
     enemy for enemy in @box when not enemy.isActive()

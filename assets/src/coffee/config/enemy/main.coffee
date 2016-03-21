@@ -18,8 +18,8 @@ Motion = require './motion'
 #       motion: 敵の動作情報
 #         type        : 動作パターン(motion.coffeeを参照)
 #         turningPoint: 動作パターンに必要になる「起点時間」
-#         width : 出現座標の幅
-#         height: 出現座標の高さ
+#       width : 出現座標の幅
+#       height: 出現座標の高さ
 #     }
 #   ]
 
