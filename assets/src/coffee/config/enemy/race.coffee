@@ -1,13 +1,3 @@
-### Enemyクラスの種族情報オブジェクト ###
-# 敵の種族に関する情報を格納したオブジェクト
-# オブジェクトの構成は以下の通り
-#
-# 種族名:
-#   type     : 種族名
-#   radius   : 大きさ
-#   distance : 移動距離
-#   color    : 色
-
 module.exports =
   pawn: #ポーン種(標準種)
     type: 'pawn'
