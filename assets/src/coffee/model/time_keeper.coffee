@@ -13,11 +13,11 @@ module.exports = class TimeKeeper
       enemyBox: enemyBox
 
   watch: ->
-    setTimeout (self) ->
-      self.clearField()
-      self.monitored_object.enemyBox.showEnemies self.times
-      self.monitored_object.player.show()
-      globalObject.magazine.showBullets self.times, self.monitored_object.player
-      self.times++
-      self.watch()
+    setTimeout (timeKeeper) ->
+      timeKeeper.clearField()
+      timeKeeper.monitored_object.enemyBox.showEnemies timeKeeper.times
+      timeKeeper.monitored_object.player.show()
+      globalObject.magazine.showBullets timeKeeper.times, timeKeeper.monitored_object.player
+      timeKeeper.times++
+      timeKeeper.watch()
     , 15, @
