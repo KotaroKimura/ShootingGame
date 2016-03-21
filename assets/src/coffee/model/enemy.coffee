@@ -1,6 +1,3 @@
-# グローバル変数をロード
-globalObject = require '../config/global'
-
 # 親クラスをロード
 Actor = require './actor'
 
@@ -21,6 +18,7 @@ module.exports = class Enemy extends Actor
   # override
   show: ->
     super @color, @radius
+    @times++
 
   reShow: (info_arg) ->
     _setInstance.call @, info_arg
@@ -28,18 +26,19 @@ module.exports = class Enemy extends Actor
 
   # override
   calculateDistance: ->
-    eval "this.#{@motion_type}()"
+    eval "this.#{@motionType}()"
     @left @distance if @canMoveTo.left
     @up   @distance if @canMoveTo.up
     @down @distance if @canMoveTo.down
 
   ### プライベートメソッド群 ###
   _setInstance = (info_arg) ->
-    @radius      = info_arg.race.radius
-    @motion_type = info_arg.motion.type
-    @stroke      = info_arg.motion.stroke
-    @distance    = info_arg.race.distance
-    @type        = info_arg.race.type
-    @color       = info_arg.race.color
-    @width       = info_arg.width
-    @height      = info_arg.height
+    @times        = 0
+    @radius       = info_arg.race.radius
+    @motionType   = info_arg.motion.type
+    @turningPoint = info_arg.motion.turningPoint
+    @distance     = info_arg.race.distance
+    @type         = info_arg.race.type
+    @color        = info_arg.race.color
+    @width        = info_arg.width
+    @height       = info_arg.height
