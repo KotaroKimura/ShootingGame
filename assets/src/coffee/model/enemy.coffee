@@ -12,7 +12,7 @@ module.exports = class Enemy extends Actor
 
   ### パブリックメソッド群 ###
   hide: ->
-    for direction in ['left', 'top', 'down']
+    for direction in ['left', 'up', 'down']
       @stop direction
 
   # override

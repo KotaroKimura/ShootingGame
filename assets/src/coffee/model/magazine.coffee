@@ -45,7 +45,7 @@ module.exports = class Magazine
     (bullet for bullet in @list when not bullet.canMoveTo.right)
 
   _canShootBullet = (loopTimes, shootable) ->
-    shootable is true and loopTimes % 10 is 0
+    shootable is true and loopTimes % 3 is 0
 
   _shootNewBullet = (width, height) ->
     bullet = new Bullet width, height
