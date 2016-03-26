@@ -14,8 +14,8 @@ module.exports = class Magazine
 
   ### パブリックメソッド群 ###
   attack: (enemies) ->
-    for bullet in @list
-      for enemy in enemies
+    for bullet in _getAliveBullets.call @
+      for enemy in enemies.getAliveEnemies()
         bullet.attack enemy
 
   showBullets: (loopTimes, actor) ->
@@ -39,10 +39,10 @@ module.exports = class Magazine
       if globalObject.field.width > bullet.width then bullet.show() else bullet.hide()
 
   _getActiveBullets = ->
-    bullet for bullet in @list when bullet.canMoveTo.right
+    (bullet for bullet in @list when bullet.canMoveTo.right)
 
   _getReloadedBullets = ->
-    bullet for bullet in @list when not bullet.canMoveTo.right
+    (bullet for bullet in @list when not bullet.canMoveTo.right)
 
   _canShootBullet = (loopTimes, shootable) ->
     shootable is true and loopTimes % 10 is 0
@@ -55,3 +55,6 @@ module.exports = class Magazine
   _shootReloadedBullet = (bullet, width, height) ->
     bullet.reuse width + 20, height
     bullet.show()
+
+  _getAliveBullets = ->
+    (bullet for bullet in @list when bullet.isAlive())

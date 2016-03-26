@@ -54,6 +54,9 @@ module.exports = class Actor
   isDead: ->
     @hitPoint is 0
 
+  isAlive: ->
+    @hitPoint > 0
+
   # override用メソッド
   calculateDistance: ->
     true
