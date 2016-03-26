@@ -4,19 +4,17 @@ globalObject = require '../config/global'
 # モデルクラスをロード
 Actor = require './actor'
 
-# 実機に関する情報を持ったオブジェクトをロード
-PlayerInfo = require '../config/player/main'
-
 module.exports = class Player extends Actor
   constructor: ->
+    @playerInfo = require '../config/player/main' # 実機に関する情報を持ったオブジェクトをロード
     @shootable = false
     super(
-      PlayerInfo.width,
-      PlayerInfo.height,
+      @playerInfo.width,
+      @playerInfo.height,
       0,
       0,
-      PlayerInfo.radius,
-      PlayerInfo.hitPoint
+      @playerInfo.radius,
+      @playerInfo.hitPoint
     )
 
   ### パブリックメソッド群 ###
@@ -28,24 +26,24 @@ module.exports = class Player extends Actor
 
   # override
   show: ->
-    super PlayerInfo.color
+    super @playerInfo.color
 
   # override
   calculateDistance: ->
-    @left  PlayerInfo.distance if _canMoveLeft.call @
-    @right PlayerInfo.distance if _canMoveRight.call @
-    @up    PlayerInfo.distance if _canMoveUp.call @
-    @down  PlayerInfo.distance if _canMoveDown.call @
+    @left  @playerInfo.distance if _canMoveLeft.call @
+    @right @playerInfo.distance if _canMoveRight.call @
+    @up    @playerInfo.distance if _canMoveUp.call @
+    @down  @playerInfo.distance if _canMoveDown.call @
 
   ### プライベートメソッド群 ###
   _canMoveLeft = ->
-    @canMoveTo.left and @width > PlayerInfo.radius + 5
+    @canMoveTo.left and @width > @playerInfo.radius + 5
 
   _canMoveRight = ->
-    @canMoveTo.right and @width < globalObject.field.width - (PlayerInfo.radius + 5)
+    @canMoveTo.right and @width < globalObject.field.width - (@playerInfo.radius + 5)
 
   _canMoveUp = ->
-    @canMoveTo.up and @height > PlayerInfo.radius + 10
+    @canMoveTo.up and @height > @playerInfo.radius + 10
 
   _canMoveDown = ->
-    @canMoveTo.down and @height < globalObject.field.height - (PlayerInfo.radius + 5)
+    @canMoveTo.down and @height < globalObject.field.height - (@playerInfo.radius + 5)
