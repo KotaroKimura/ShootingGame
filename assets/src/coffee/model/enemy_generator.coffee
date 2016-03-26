@@ -7,6 +7,9 @@ Race = require '../config/enemy/race'
 # 敵の動作情報をロード
 Motion = require '../config/enemy/motion'
 
+# Mathクラスの拡張クラスをロード
+Math = require '../extend/math'
+
 ### EnemyGeneratorクラス ###
 # Enemyクラスのオブジェクト生成に必要なデータを、動的に作成するクラス
 
@@ -15,7 +18,7 @@ module.exports = class EnemyGenerator
 
   ### パブリックメソッド群 ###
   generateEnemyDetail: ->
-    return [] if @appearance_rate < Math.round Math.random() * 100
+    return [] if @appearance_rate < Math.randomNumber 100
 
     race         = _selectRace.call @
     motion       = _selectMotion.call @, race.type
@@ -31,7 +34,7 @@ module.exports = class EnemyGenerator
 
   ### プライベートメソッド群 ###
   _selectRace = ->
-    randomNumber = Math.round Math.random() * 100
+    randomNumber = Math.randomNumber 100
     if $.inArray(randomNumber, [1..33]) isnt -1
       Race.giant
     else if $.inArray(randomNumber, [34..66]) isnt -1
@@ -40,7 +43,7 @@ module.exports = class EnemyGenerator
       Race.pawn
 
   _selectMotion = (race) ->
-    randomNumber = Math.round Math.random() * 100
+    randomNumber = Math.randomNumber 100
     if $.inArray(randomNumber, [1..5]) isnt -1
       return Motion.jump
     else if $.inArray(randomNumber, [6..10]) isnt -1
@@ -61,7 +64,7 @@ module.exports = class EnemyGenerator
     if motion is Motion.straight
       undefined
     else
-      Math.floor Math.random() * 40 + 10
+      Math.randomNumber(40) + 10
 
   _selectHeight = ->
-    (Math.floor Math.random() * [50..(globalObject.field.height - 50)].length) + 50
+    Math.randomNumber(globalObject.field.height - 100) + 50

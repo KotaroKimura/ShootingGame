@@ -1,6 +1,9 @@
 # グローバル変数をロード
 globalObject = require '../../config/global'
 
+# Mathクラスの拡張クラスをロード
+Math = require '../../extend/math'
+
 class Mixin
   augment: (t) ->
     (t[n] = m unless n == 'augment' or !this[n].prototype?) for n, m of this
@@ -68,7 +71,7 @@ module.exports = class EnemyMotion extends Mixin
         @stop DIRECTION.up
         @stop DIRECTION.down
       else
-        if Math.round Math.random() then @move DIRECTION.up else @move DIRECTION.down
+        if Math.randomBool() then @move DIRECTION.up else @move DIRECTION.down
         @stop DIRECTION.left
 
   jump:
@@ -76,7 +79,7 @@ module.exports = class EnemyMotion extends Mixin
       @move DIRECTION.left if @times is 0
       return unless @times % @turningPoint is 0
       if _canChangeDirection.call @
-        @height = (Math.floor Math.random() * [50..(globalObject.field.height - 50)].length) + 50
+        @height = Math.randomNumber(globalObject.field.height - 100) + 50
 
   ### プライベートメソッド群 ###
   _canChangeDirection = ->
