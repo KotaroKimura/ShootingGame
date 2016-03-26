@@ -7,9 +7,10 @@ Actor = require './actor'
 module.exports = class Player extends Actor
   RADIUS   = 15
   DISTANCE = 10
+  HITPOINT = 1
   constructor: ->
     @shootable = false
-    super 20, (globalObject.field.height - RADIUS) / 2, 0, 0, RADIUS
+    super 20, (globalObject.field.height - RADIUS) / 2, 0, 0, RADIUS, HITPOINT
 
   ### パブリックメソッド群 ###
   shoot: ->

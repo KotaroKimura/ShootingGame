@@ -18,6 +18,11 @@ gulp.task 'compile concern', ->
     .pipe coffee({ bare: true })
     .pipe gulp.dest 'assets/src/js/model/concern'
 
+gulp.task 'compile extend', ->
+  gulp.src 'assets/src/coffee/extend/*.coffee'
+    .pipe coffee({ bare: true })
+    .pipe gulp.dest 'assets/src/js/extend'
+
 gulp.task 'compile config', ->
   gulp.src 'assets/src/coffee/config/*.coffee'
     .pipe coffee({ bare: true })
@@ -33,8 +38,8 @@ gulp.task 'webpack', ->
     .pipe webpack require './webpack.config.js'
     .pipe gulp.dest 'assets/build'
 
-gulp.task 'compile', ->
-  runSequence ['compile main', 'compile model', 'compile concern', 'compile config', 'compile config-enemy']
+gulp.task 'compile', (callback) ->
+  runSequence ['compile main', 'compile model', 'compile concern', 'compile config', 'compile config-enemy', 'compile extend']
 
-gulp.task 'default', ['compile'], ->
-  runSequence ['webpack']
+gulp.task 'default', ->
+  runSequence ['compile']

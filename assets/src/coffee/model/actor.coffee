@@ -2,7 +2,7 @@
 Canvas = require './concern/canvas'
 
 module.exports = class Actor
-  constructor: (@width, @height, @distance_width, @distance_height, @radius) ->
+  constructor: (@width, @height, @distance_width, @distance_height, @radius, @hitPoint) ->
     Canvas::augment @
     @canMoveTo =
       left : false
@@ -42,6 +42,12 @@ module.exports = class Actor
     @calculateDistance()
     @width  += @distance_width
     @height += @distance_height
+
+  decreaseHitPoint: ->
+    @hitPoint -= 1
+
+  isDead: ->
+    @hitPoint is 0
 
   # override用メソッド
   calculateDistance: ->

@@ -5,6 +5,9 @@ EnemyInfo = require '../config/enemy/main'
 Enemy          = require './enemy'
 EnemyGenerator = require './enemy_generator'
 
+# Mathクラスの拡張クラスをロード
+Math           = require '../extend/math'
+
 ### EnemyBoxクラス ###
 # Enemyクラスのオブジェクトを配列として格納し、その操作を行うクラス
 
@@ -13,6 +16,11 @@ module.exports = class EnemyBox
     @box = []
 
   ### パブリックメソッド群 ###
+  attack: (player) ->
+    for enemy in @box
+      actualDistance = Math.sqrt((Math.square player.height - enemy.height) + (Math.square player.width - enemy.width))
+      player.decreaseHitPoint() if actualDistance < player.radius + enemy.radius
+
   showEnemies: (loopTimes) ->
     _drawNewEnemy.call @, loopTimes
     _drawActiveEnemies.call @
@@ -42,7 +50,7 @@ module.exports = class EnemyBox
 
   _drawActiveEnemies = ->
     for enemy in _getActiveEnemies.call @
-      if 0 < enemy.width + enemy.radius then enemy.show() else enemy.die()
+      if 0 < enemy.width + enemy.radius then enemy.show() else enemy.hide()
 
   _getActiveEnemies = ->
     enemy for enemy in @box when enemy.isActive()

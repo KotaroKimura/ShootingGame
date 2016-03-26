@@ -5,8 +5,9 @@ module.exports = class Bullet extends Actor
   RADIUS    = 5
   DIRECTION = 'right'
   DISTANCE  = 15
+  HITPOINT  = 1
   constructor: (play_width, play_height) ->
-    super play_width + 20, play_height, 0, 0, RADIUS
+    super play_width + 20, play_height, 0, 0, RADIUS, HITPOINT
 
   hide: ->
     @stop DIRECTION
