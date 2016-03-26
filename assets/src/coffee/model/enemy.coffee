@@ -8,7 +8,7 @@ module.exports = class Enemy extends Actor
   constructor: (info_arg) ->
     _setInstance.call @, info_arg
     Motion::augment @
-    super info_arg.width, info_arg.height, 0, 0, info_arg.race.radius, info_arg.race.hitPont
+    super info_arg.width, info_arg.height, 0, 0, info_arg.race.radius, info_arg.race.hitPoint
 
   ### パブリックメソッド群 ###
   hide: ->
@@ -42,4 +42,4 @@ module.exports = class Enemy extends Actor
     @type         = info_arg.race.type
     @color        = info_arg.race.color
     @radius       = info_arg.race.radius
-    @hitPoint     = info_arg.race.hitPont
+    @hitPoint     = info_arg.race.hitPoint

@@ -14,7 +14,7 @@ module.exports = class EnemyBox
 
   ### パブリックメソッド群 ###
   attack: (player) ->
-    for enemy in @box
+    for enemy in @getAliveEnemies()
       enemy.attack player
 
   getAliveEnemies: ->
@@ -36,7 +36,7 @@ module.exports = class EnemyBox
 
   _getAppearableEnemyDetails = (loopTimes) ->
     details = (details for popTime, details of EnemyInfo when loopTimes is +popTime)
-    details.push new EnemyGenerator(3).generateEnemyDetail()
+    details.push new EnemyGenerator(5).generateEnemyDetail()
     details
 
   _getDeadEnemies = ->

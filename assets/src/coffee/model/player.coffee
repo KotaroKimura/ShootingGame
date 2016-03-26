@@ -32,13 +32,13 @@ module.exports = class Player extends Actor
 
   ### プライベートメソッド群 ###
   _canMoveLeft = ->
-    @canMoveTo.left and @width > RADIUS
+    @canMoveTo.left and @width > RADIUS + 5
 
   _canMoveRight = ->
-    @canMoveTo.right and @width < globalObject.field.width - RADIUS
+    @canMoveTo.right and @width < globalObject.field.width - (RADIUS + 5)
 
   _canMoveUp = ->
-    @canMoveTo.up and @height > RADIUS
+    @canMoveTo.up and @height > RADIUS + 10
 
   _canMoveDown = ->
-    @canMoveTo.down and @height < globalObject.field.height - RADIUS
+    @canMoveTo.down and @height < globalObject.field.height - (RADIUS + 5)
