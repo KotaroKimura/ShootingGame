@@ -77,12 +77,12 @@ module.exports = class EnemyMotion extends Mixin
   _correctPosition = ->
     if @height > globalObject.field.height - @radius
       @move DIRECTION.up
+      @move DIRECTION.left
       @stop DIRECTION.down
-      @stop DIRECTION.left
       return
 
     if @height < @radius
       @move DIRECTION.down
+      @move DIRECTION.left
       @stop DIRECTION.up
-      @stop DIRECTION.left
       return
