@@ -13,6 +13,11 @@ module.exports = class Magazine
     @list = []
 
   ### パブリックメソッド群 ###
+  attack: (enemies) ->
+    for bullet in @list
+      for enemy in enemies
+        bullet.attack enemy
+
   showBullets: (loopTimes, actor) ->
     _drawshotBullet.call @, loopTimes, actor
     _drawActiveBullets.call @
@@ -48,5 +53,5 @@ module.exports = class Magazine
     @list.push bullet
 
   _shootReloadedBullet = (bullet, width, height) ->
-    bullet.relocate width + 20, height
+    bullet.reuse width + 20, height
     bullet.show()

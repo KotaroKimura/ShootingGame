@@ -19,3 +19,14 @@ module.exports = class Bullet extends Actor
   # override
   calculateDistance: ->
     if @canMoveTo.right then @right DISTANCE else @move DIRECTION
+
+  # override
+  attack: (targetActor) ->
+    super targetActor
+    @hide() if @isDead()
+    targetActor.hide() if targetActor.isDead()
+
+  reuse: (play_width, play_height) ->
+    @width    = play_width
+    @height   = play_height
+    @hitPoint = HITPOINT

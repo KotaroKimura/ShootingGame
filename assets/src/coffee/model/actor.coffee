@@ -1,6 +1,9 @@
 # キャンバスに対して操作を行うモジュールをロード
 Canvas = require './concern/canvas'
 
+# Mathクラスの拡張クラスをロード
+Math   = require '../extend/math'
+
 module.exports = class Actor
   constructor: (@width, @height, @distance_width, @distance_height, @radius, @hitPoint) ->
     Canvas::augment @
@@ -11,15 +14,17 @@ module.exports = class Actor
       down : false
 
   ### パブリックメソッド群 ###
+  attack: (targetActor) ->
+    actualDistance = Math.sqrt (Math.square targetActor.height - @height) + (Math.square targetActor.width - @width)
+    if actualDistance < targetActor.radius + @radius
+      @decreaseHitPoint()
+      targetActor.decreaseHitPoint()
+
   move: (direction) ->
     @canMoveTo[direction] = true
 
   stop: (direction) ->
     @canMoveTo[direction] = false
-
-  relocate: (play_width, play_height) ->
-    @width  = play_width
-    @height = play_height
 
   left: (distance) ->
     @distance_width = -distance
