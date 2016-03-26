@@ -29,7 +29,7 @@ module.exports = class EnemyBox
 
   _getAppearableEnemyDetails = (loopTimes) ->
     details = (details for popTime, details of EnemyInfo when loopTimes is +popTime)
-    details.push new EnemyGenerator(3).generateEenemyDetail()
+    details.push new EnemyGenerator(3).generateEnemyDetail()
     details
 
   _getDeadEnemies = ->

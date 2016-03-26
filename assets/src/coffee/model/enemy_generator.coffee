@@ -14,7 +14,7 @@ module.exports = class EnemyGenerator
   constructor: (@appearance_rate) ->
 
   ### パブリックメソッド群 ###
-  generateEenemyDetail: ->
+  generateEnemyDetail: ->
     return [] if @appearance_rate < Math.round Math.random() * 100
 
     race         = _selectRace.call @
