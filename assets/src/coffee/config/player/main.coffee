@@ -25,7 +25,7 @@ module.exports =
   color   : '#ffa500'
   hitPoint: 1
   width   : 20
-  height  : (globalObject.field.height - Race.pawn.radius) / 2
+  height  : (globalObject.field.height - 15) / 2
   bullets :
     type     : 'player'
     direction: 'right'
