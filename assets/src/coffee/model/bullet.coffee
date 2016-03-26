@@ -6,14 +6,14 @@ module.exports = class Bullet extends Actor
   DIRECTION = 'right'
   DISTANCE  = 15
   constructor: (play_width, play_height) ->
-    super play_width + 20, play_height, 0, 0
+    super play_width + 20, play_height, 0, 0, RADIUS
 
   hide: ->
     @stop DIRECTION
 
   # override
   show: ->
-    super '#87CEEB', RADIUS
+    super '#ffa500'
 
   # override
   calculateDistance: ->

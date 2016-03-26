@@ -5,11 +5,11 @@ globalObject = require '../config/global'
 Actor = require './actor'
 
 module.exports = class Player extends Actor
-  RADIUS   = 10
+  RADIUS   = 15
   DISTANCE = 10
   constructor: ->
     @shootable = false
-    super 20, (globalObject.field.height - RADIUS) / 2, 0, 0
+    super 20, (globalObject.field.height - RADIUS) / 2, 0, 0, RADIUS
 
   ### パブリックメソッド群 ###
   shoot: ->
@@ -20,7 +20,7 @@ module.exports = class Player extends Actor
 
   # override
   show: ->
-    super '#fff', RADIUS
+    super '#ffa500'
 
   # override
   calculateDistance: ->

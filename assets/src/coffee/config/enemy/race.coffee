@@ -11,16 +11,16 @@
 module.exports =
   pawn: #ポーン種(標準種)
     type: 'pawn'
-    radius: 10
+    radius: 15
     distance: 5
-    color: '#696969'
+    color: '#20b2aa'
   rush: #ラッシュ種(突進種)
     type: 'rush'
     radius: 10
     distance: 15
-    color: '#191970'
+    color: '#20b2aa'
   giant: #ジャイアント種(巨大種)
     type: 'giant'
     radius: 30
     distance: 2
-    color: '#2F4F4F'
+    color: '#20b2aa'

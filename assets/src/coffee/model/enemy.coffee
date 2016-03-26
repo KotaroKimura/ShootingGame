@@ -8,7 +8,7 @@ module.exports = class Enemy extends Actor
   constructor: (info_arg) ->
     _setInstance.call @, info_arg
     Motion::augment @
-    super @width, @height, 0, 0
+    super info_arg.width, info_arg.height, 0, 0, info_arg.race.radius
 
   ### パブリックメソッド群 ###
   die: ->
@@ -17,7 +17,7 @@ module.exports = class Enemy extends Actor
 
   # override
   show: ->
-    super @color, @radius
+    super @color
     @times++
 
   reShow: (info_arg) ->
@@ -33,12 +33,12 @@ module.exports = class Enemy extends Actor
 
   ### プライベートメソッド群 ###
   _setInstance = (info_arg) ->
+    @width        = info_arg.width
+    @height       = info_arg.height
     @times        = 0
-    @radius       = info_arg.race.radius
     @motionType   = info_arg.motion.type
     @turningPoint = info_arg.motion.turningPoint
     @distance     = info_arg.race.distance
     @type         = info_arg.race.type
     @color        = info_arg.race.color
-    @width        = info_arg.width
-    @height       = info_arg.height
+    @radius       = info_arg.race.radius

@@ -2,7 +2,7 @@
 Canvas = require './concern/canvas'
 
 module.exports = class Actor
-  constructor: (@width, @height, @distance_width, @distance_height) ->
+  constructor: (@width, @height, @distance_width, @distance_height, @radius) ->
     Canvas::augment @
     @canMoveTo =
       left : false
@@ -48,9 +48,9 @@ module.exports = class Actor
     true
 
   # override用メソッド
-  show: (color, radius) ->
+  show: (color) ->
     @decideBehavior()
-    @drawArc color, radius
+    @drawArc color, @radius
 
   isActive: ->
     if (state for direction, state of @canMoveTo when state is true).length is 0 then false else true

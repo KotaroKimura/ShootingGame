@@ -36,5 +36,5 @@ gulp.task 'webpack', ->
 gulp.task 'compile', ->
   runSequence ['compile main', 'compile model', 'compile concern', 'compile config', 'compile config-enemy']
 
-gulp.task 'default', ->
-  runSequence ['compile']
+gulp.task 'default', ['compile'], ->
+  runSequence ['webpack']
