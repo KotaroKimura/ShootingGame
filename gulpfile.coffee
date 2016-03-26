@@ -33,13 +33,18 @@ gulp.task 'compile config-enemy', ->
     .pipe coffee({ bare: true })
     .pipe gulp.dest 'assets/src/js/config/enemy'
 
+gulp.task 'compile config-player', ->
+  gulp.src 'assets/src/coffee/config/player/*.coffee'
+    .pipe coffee({ bare: true })
+    .pipe gulp.dest 'assets/src/js/config/player'
+
 gulp.task 'webpack', ->
   gulp.src 'assets/src/js/main.js'
     .pipe webpack require './webpack.config.js'
     .pipe gulp.dest 'assets/build'
 
 gulp.task 'compile', (callback) ->
-  runSequence ['compile main', 'compile model', 'compile concern', 'compile config', 'compile config-enemy', 'compile extend']
+  runSequence ['compile main', 'compile model', 'compile concern', 'compile config', 'compile config-enemy', 'compile extend', 'compile config-player']
 
 gulp.task 'default', ->
   runSequence ['compile']
