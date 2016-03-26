@@ -26,7 +26,7 @@ module.exports = class Enemy extends Actor
 
   # override
   calculateDistance: ->
-    eval "this.#{@motionType}()"
+    @[@motionType]()
     @left @distance if @canMoveTo.left
     @up   @distance if @canMoveTo.up
     @down @distance if @canMoveTo.down
