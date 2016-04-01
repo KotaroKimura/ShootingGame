@@ -2,23 +2,27 @@
 Actor = require './actor'
 
 module.exports = class Bullet extends Actor
-  RADIUS    = 5
-  DIRECTION = 'right'
-  DISTANCE  = 15
-  HITPOINT  = 1
-  constructor: (play_width, play_height) ->
-    super play_width + 20, play_height, 0, 0, RADIUS, HITPOINT
+  constructor: (actor) ->
+    @details = actor.bulletDetails
+    super(
+      actor.width + 20,
+      actor.height,
+      0,
+      0,
+      @details.radius,
+      @details.hitPoint
+    )
 
   hide: ->
-    @stop DIRECTION
+    @stop @details.direction
 
   # override
   show: ->
-    super '#ffa500'
+    super @details.color
 
   # override
   calculateDistance: ->
-    if @canMoveTo.right then @right DISTANCE else @move DIRECTION
+    if @canMoveTo.right then @right @details.distance else @move @details.direction
 
   # override
   attack: (targetActor) ->
@@ -26,7 +30,8 @@ module.exports = class Bullet extends Actor
     @hide() if @isDead()
     targetActor.hide() if targetActor.isDead()
 
-  reuse: (play_width, play_height) ->
-    @width    = play_width
-    @height   = play_height
-    @hitPoint = HITPOINT
+  reuse: (actor) ->
+    @width    = actor.width + 20
+    @height   = actor.height
+    @hitPoint = actor.bulletDetails.hitPoint
+    @radius   = actor.bulletDetails.radius

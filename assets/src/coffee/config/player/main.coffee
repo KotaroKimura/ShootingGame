@@ -15,8 +15,10 @@ globalObject = require '../global'
 #   bullets :
 #     type     : 実機が打った弾の、タイプ
 #     direction: 実機が打った弾が、どの方向に動くのか
+#     color    : 実機が打った弾の、色
 #     distance : 実機が打った弾の、移動距離
 #     hitPoint : 実機が打った弾の、ヒットポイント
+#     radius   : 実機が打った弾の、半径
 # }
 
 module.exports =
@@ -29,5 +31,7 @@ module.exports =
   bullets :
     type     : 'player'
     direction: 'right'
+    color    : '#ffa500'
     distance : 15
     hitPoint : 1
+    radius   : 5
